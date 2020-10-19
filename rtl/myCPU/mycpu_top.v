@@ -1,3 +1,4 @@
+`include "mycpu.h"
 module mycpu_top(
     input         clk,
     input         resetn,
@@ -36,6 +37,9 @@ wire [`ES_TO_MS_BUS_WD -1:0] es_to_ms_bus;
 wire [`MS_TO_WS_BUS_WD -1:0] ms_to_ws_bus;
 wire [`WS_TO_RF_BUS_WD -1:0] ws_to_rf_bus;
 wire [`BR_BUS_WD       -1:0] br_bus;
+wire [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus;
+wire [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus;
+wire [`WS_FWD_BLK_BUS_WD -1:0] ws_fwd_blk_bus;
 
 // IF stage
 if_stage if_stage(
@@ -71,7 +75,11 @@ id_stage id_stage(
     //to fs
     .br_bus         (br_bus         ),
     //to rf: for write back
-    .ws_to_rf_bus   (ws_to_rf_bus   )
+    .ws_to_rf_bus   (ws_to_rf_bus   ),
+    // forward & block
+    .es_fwd_blk_bus (es_fwd_blk_bus ),
+    .ms_fwd_blk_bus (ms_fwd_blk_bus ),
+    .ws_fwd_blk_bus (ws_fwd_blk_bus )
 );
 // EXE stage
 exe_stage exe_stage(
@@ -90,7 +98,9 @@ exe_stage exe_stage(
     .data_sram_en   (data_sram_en   ),
     .data_sram_wen  (data_sram_wen  ),
     .data_sram_addr (data_sram_addr ),
-    .data_sram_wdata(data_sram_wdata)
+    .data_sram_wdata(data_sram_wdata),
+    // forward & block
+    .es_fwd_blk_bus (es_fwd_blk_bus )
 );
 // MEM stage
 mem_stage mem_stage(
@@ -106,7 +116,9 @@ mem_stage mem_stage(
     .ms_to_ws_valid (ms_to_ws_valid ),
     .ms_to_ws_bus   (ms_to_ws_bus   ),
     //from data-sram
-    .data_sram_rdata(data_sram_rdata)
+    .data_sram_rdata(data_sram_rdata),
+    // forward & block
+    .ms_fwd_blk_bus (ms_fwd_blk_bus)
 );
 // WB stage
 wb_stage wb_stage(
@@ -119,6 +131,8 @@ wb_stage wb_stage(
     .ms_to_ws_bus   (ms_to_ws_bus   ),
     //to rf: for write back
     .ws_to_rf_bus   (ws_to_rf_bus   ),
+    //forward & block
+    .ws_fwd_blk_bus (ws_fwd_blk_bus ),
     //trace debug interface
     .debug_wb_pc      (debug_wb_pc      ),
     .debug_wb_rf_wen  (debug_wb_rf_wen  ),

@@ -15,7 +15,14 @@ module id_stage(
     //to fs
     output [`BR_BUS_WD       -1:0] br_bus        ,
     //to rf: for write back
-    input  [`WS_TO_RF_BUS_WD -1:0] ws_to_rf_bus
+    input  [`WS_TO_RF_BUS_WD -1:0] ws_to_rf_bus  ,
+    
+    // forword & block from es
+    input  [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus,
+    // forword & block from ms
+    input  [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus,
+    // forword & block from ws
+    input  [`WS_FWD_BLK_BUS_WD -1:0] ws_fwd_blk_bus
 );
 
 reg         ds_valid   ;
@@ -38,6 +45,30 @@ assign {rf_we   ,  //37:37
         rf_wdata   //31:0
        } = ws_to_rf_bus;
 
+// forward & block
+
+wire        es_rf_wen;
+wire [ 4:0] es_rf_dest;
+assign {
+    es_rf_wen,
+    es_rf_dest
+} = es_fwd_blk_bus;
+
+wire        ms_rf_wen;
+wire [ 4:0] ms_rf_dest;
+assign {
+    ms_rf_wen,
+    ms_rf_dest
+} = ms_fwd_blk_bus;
+
+wire        ws_rf_wen;
+wire [ 4:0] ws_rf_dest;
+assign {
+    ws_rf_wen,
+    ws_rf_dest
+} = ws_fwd_blk_bus;
+
+wire        br_stall;
 wire        br_taken;
 wire [31:0] br_target;
 
@@ -99,7 +130,7 @@ wire [31:0] rf_rdata2;
 
 wire        rs_eq_rt;
 
-assign br_bus       = {br_taken,br_target};
+assign br_bus       = {br_stall,br_taken,br_target};
 
 assign ds_to_es_bus = {alu_op      ,  //135:124
                        load_op     ,  //123:123
@@ -116,7 +147,12 @@ assign ds_to_es_bus = {alu_op      ,  //135:124
                        ds_pc          //31 :0
                       };
 
-assign ds_ready_go    = 1'b1;
+assign ds_ready_go    = !(
+    (es_rf_wen && (es_rf_dest == rs || es_rf_dest == rt)) ||
+    (ms_rf_wen && (ms_rf_dest == rs || ms_rf_dest == rt)) ||
+    (ws_rf_wen && (ws_rf_dest == rs || ws_rf_dest == rt))
+);
+
 assign ds_allowin     = !ds_valid || ds_ready_go && es_allowin;
 assign ds_to_es_valid = ds_valid && ds_ready_go;
 always @(posedge clk) begin
@@ -211,6 +247,9 @@ regfile u_regfile(
 
 assign rs_value = rf_rdata1;
 assign rt_value = rf_rdata2;
+
+// TODO:
+assign br_stall = 1'b0;
 
 assign rs_eq_rt = (rs_value == rt_value);
 assign br_taken = (   inst_beq  &&  rs_eq_rt
