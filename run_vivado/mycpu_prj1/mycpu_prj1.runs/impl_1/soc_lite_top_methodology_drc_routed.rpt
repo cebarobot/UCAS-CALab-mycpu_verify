@@ -1,0 +1,73 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Tue Oct 13 18:27:55 2020
+| Host         : CEBA-X1C running 64-bit major release  (build 9200)
+| Command      : report_methodology -file soc_lite_top_methodology_drc_routed.rpt -pb soc_lite_top_methodology_drc_routed.pb -rpx soc_lite_top_methodology_drc_routed.rpx
+| Design       : soc_lite_top
+| Device       : xc7a200tfbg676-2
+| Speed File   : -2
+| Design State : Fully Routed
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+             Max violations: <unlimited>
+             Violations found: 6
++-----------+----------+-------------------------------------------------------------------+------------+
+| Rule      | Severity | Description                                                       | Violations |
++-----------+----------+-------------------------------------------------------------------+------------+
+| TIMING-9  | Warning  | Unknown CDC Logic                                                 | 1          |
+| TIMING-10 | Warning  | Missing property on synchronizer                                  | 1          |
+| TIMING-47 | Warning  | False path or asynchronous clock group between synchronous clocks | 2          |
+| XDCC-1    | Warning  | Scoped Clock constraint overwritten with the same name            | 1          |
+| XDCC-7    | Warning  | Scoped Clock constraint overwritten on the same source            | 1          |
++-----------+----------+-------------------------------------------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+TIMING-9#1 Warning
+Unknown CDC Logic  
+One or more asynchronous Clock Domain Crossing has been detected between 2 clock domains through a set_false_path or a set_clock_groups or set_max_delay -datapath_only constraint but no double-registers logic synchronizer has been found on the side of the capture clock. It is recommended to run report_cdc for a complete and detailed CDC coverage. Please consider using XPM_CDC to avoid Critical severities
+Related violations: <none>
+
+TIMING-10#1 Warning
+Missing property on synchronizer  
+One or more logic synchronizer has been detected between 2 clock domains but the synchronizer does not have the property ASYNC_REG defined on one or both registers. It is recommended to run report_cdc for a complete and detailed CDC coverage
+Related violations: <none>
+
+TIMING-47#1 Warning
+False path or asynchronous clock group between synchronous clocks  
+A False Path timing constraint is set between synchronous clocks cpu_clk_clk_pll and timer_clk_clk_pll (see constraint position 5 in the Timing Constraint window in Vivado IDE). It is not recommended to cover synchronous clock domains with constraints that prevent timing analysis as the design could fail in hardware.
+Related violations: <none>
+
+TIMING-47#2 Warning
+False path or asynchronous clock group between synchronous clocks  
+A False Path timing constraint is set between synchronous clocks timer_clk_clk_pll and cpu_clk_clk_pll (see constraint position 4 in the Timing Constraint window in Vivado IDE). It is not recommended to cover synchronous clock domains with constraints that prevent timing analysis as the design could fail in hardware.
+Related violations: <none>
+
+XDCC-1#1 Warning
+Scoped Clock constraint overwritten with the same name  
+A new clock constraint create_clock overrides a previous scoped clock constraint with the same name. It is not recommended to override a scoped (typically an IP) clock constraint and could result in unexpected behaviors.
+New: create_clock -period 10.000 -name clk -waveform {0.000 5.000} [get_ports clk] (Source: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/soc_lite.xdc (Line: 5))
+Previous: create_clock -period 10.000 [get_ports clk] (Source: c:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/clk_pll/clk_pll.xdc (Line: 56))
+Related violations: <none>
+
+XDCC-7#1 Warning
+Scoped Clock constraint overwritten on the same source  
+A new clock constraint create_clock overrides a previous scoped clock constraint defined on the same source. It is not recommended to override a scoped (typically an IP) clock constraint and could result in unexpected behaviors.
+New: create_clock -period 10.000 -name clk -waveform {0.000 5.000} [get_ports clk] (Source: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/soc_lite.xdc (Line: 5))
+Previous: create_clock -period 10.000 [get_ports clk] (Source: c:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/clk_pll/clk_pll.xdc (Line: 56))
+Related violations: <none>
+
+

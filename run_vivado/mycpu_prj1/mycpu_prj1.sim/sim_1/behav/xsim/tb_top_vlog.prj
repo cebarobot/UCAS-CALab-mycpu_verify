@@ -1,0 +1,34 @@
+# compile verilog/system verilog design source files
+sv xpm  --include "../../../../../../rtl/myCPU" --include "../../../../mycpu_prj1.ip_user_files/ipstatic" \
+"C:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
+"C:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
+
+verilog xil_defaultlib  --include "../../../../../../rtl/myCPU" --include "../../../../mycpu_prj1.ip_user_files/ipstatic" \
+"../../../../../../rtl/xilinx_ip/clk_pll/clk_pll_clk_wiz.v" \
+"../../../../../../rtl/xilinx_ip/clk_pll/clk_pll.v" \
+
+verilog blk_mem_gen_v8_4_4  --include "../../../../../../rtl/myCPU" --include "../../../../mycpu_prj1.ip_user_files/ipstatic" \
+"../../../../mycpu_prj1.ip_user_files/ipstatic/simulation/blk_mem_gen_v8_4.v" \
+
+verilog xil_defaultlib  --include "../../../../../../rtl/myCPU" --include "../../../../mycpu_prj1.ip_user_files/ipstatic" \
+"../../../../../../rtl/xilinx_ip/data_ram/sim/data_ram.v" \
+"../../../../../../rtl/xilinx_ip/inst_ram/sim/inst_ram.v" \
+"../../../../../../rtl/myCPU/EXE_stage.v" \
+"../../../../../../rtl/myCPU/ID_stage.v" \
+"../../../../../../rtl/myCPU/IF_stage.v" \
+"../../../../../../rtl/myCPU/MEM_stage.v" \
+"../../../../../../rtl/myCPU/WB_stage.v" \
+"../../../../../../rtl/myCPU/alu.v" \
+"../../../../../../rtl/BRIDGE/bridge_1x2.v" \
+"../../../../../../rtl/CONFREG/confreg.v" \
+"../../../../../../rtl/myCPU/mycpu_top.v" \
+"../../../../../../rtl/myCPU/regfile.v" \
+"../../../../../../rtl/soc_lite_top.v" \
+"../../../../../../rtl/myCPU/tools.v" \
+"../../../../../../testbench/mycpu_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

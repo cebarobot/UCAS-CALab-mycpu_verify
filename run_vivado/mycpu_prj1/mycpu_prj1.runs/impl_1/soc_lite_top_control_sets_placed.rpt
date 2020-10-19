@@ -1,0 +1,115 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Tue Oct 13 18:24:38 2020
+| Host         : CEBA-X1C running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file soc_lite_top_control_sets_placed.rpt
+| Design       : soc_lite_top
+| Device       : xc7a200t
+-----------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    37 |
+|    Minimum number of control sets                        |    37 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    76 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    37 |
+| >= 0 to < 4        |     2 |
+| >= 4 to < 6        |     4 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     1 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     1 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    28 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             154 |           47 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |             145 |           42 |
+| Yes          | No                    | No                     |             321 |          137 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |             520 |          232 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-----------------------------+--------------------------------------------+---------------------------------------+------------------+----------------+
+|         Clock Signal        |                Enable Signal               |            Set/Reset Signal           | Slice Load Count | Bel Load Count |
++-----------------------------+--------------------------------------------+---------------------------------------+------------------+----------------+
+|  pll.clk_pll/inst/cpu_clk   | confreg/step0_sample                       | confreg/SR[0]                         |                1 |              1 |
+|  pll.clk_pll/inst/cpu_clk   | confreg/step1_sample                       | confreg/SR[0]                         |                1 |              1 |
+|  pll.clk_pll/inst/cpu_clk   |                                            | confreg/state_count0                  |                1 |              4 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/id_stage/ds_to_es_valid                | cpu/id_stage/fs_to_ds_bus_r_reg[34]_0 |                3 |              4 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ena                          |                                       |                1 |              4 |
+|  pll.clk_pll/inst/cpu_clk   |                                            | cpu/reset                             |                4 |              5 |
+|  pll.clk_pll/inst/cpu_clk   | confreg/p_0_in_1                           | confreg/SR[0]                         |                4 |              6 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/es_valid_reg_0[0]            | confreg/SR[0]                         |                5 |              8 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_valid_reg[0]              |                                       |                8 |             13 |
+|  pll.clk_pll/inst/cpu_clk   |                                            | confreg/key_count0                    |                5 |             20 |
+|  pll.clk_pll/inst/cpu_clk   |                                            | confreg/step0_count0                  |                5 |             20 |
+|  pll.clk_pll/inst/cpu_clk   |                                            | confreg/step1_count0                  |                5 |             20 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/sel_conf_r_i_7_0             | confreg/SR[0]                         |               12 |             32 |
+|  pll.clk_pll/inst/timer_clk |                                            | confreg/SR[0]                         |                8 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[117]_2[0] | confreg/SR[0]                         |               14 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[117]_1[0] | confreg/SR[0]                         |               15 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/cpu_resetn_reg[0]            |                                       |               12 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[117]_4[0] | confreg/SR[0]                         |               16 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[117]_3[0] | confreg/SR[0]                         |               18 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[117]_0[0] | confreg/SR[0]                         |               17 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[117]_5[0] | confreg/SR[0]                         |               18 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[128]_0[0] | confreg/SR[0]                         |               15 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_valid_reg[0]              | cpu/reset                             |               15 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[128]_1[0] | confreg/SR[0]                         |               10 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/es_valid_reg_1[0]            | confreg/SR[0]                         |               15 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/es_valid_reg_4[0]            | confreg/SR[0]                         |                7 |             32 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/ds_to_es_bus_r_reg[128]_2[0] | confreg/SR[0]                         |               12 |             34 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/es_valid_reg_2[0]            | confreg/SR[0]                         |               14 |             34 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/mem_stage/ms_to_ws_valid               |                                       |               16 |             38 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/es_to_ms_valid               |                                       |               23 |             39 |
+|  pll.clk_pll/inst/cpu_clk   |                                            | confreg/SR[0]                         |               14 |             44 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/es_valid_reg_3[0]            | confreg/SR[0]                         |               20 |             48 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/exe_stage/E[0]                         |                                       |               34 |             64 |
+|  pll.clk_pll/inst/timer_clk |                                            |                                       |               18 |             67 |
+|  pll.clk_pll/inst/cpu_clk   |                                            |                                       |               29 |             87 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/wb_stage/ms_to_ws_bus_r_reg[69]_0      |                                       |               12 |             96 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/id_stage/ds_to_es_valid                |                                       |               43 |            131 |
++-----------------------------+--------------------------------------------+---------------------------------------+------------------+----------------+
+
+
