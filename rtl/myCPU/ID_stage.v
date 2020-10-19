@@ -20,9 +20,7 @@ module id_stage(
     // forword & block from es
     input  [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus,
     // forword & block from ms
-    input  [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus,
-    // forword & block from ws
-    input  [`WS_FWD_BLK_BUS_WD -1:0] ws_fwd_blk_bus
+    input  [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus
 );
 
 reg         ds_valid   ;
@@ -47,27 +45,26 @@ assign {rf_we   ,  //37:37
 
 // forward & block
 
-wire        es_rf_wen;
+wire        es_fwd_valid;
 wire [ 4:0] es_rf_dest;
+wire [31:0] es_rf_data;
+wire        es_blk_valid;
+wire        es_res_from_mem;
 assign {
-    es_rf_wen,
-    es_rf_dest
+    es_fwd_valid,   // 37:37
+    es_rf_dest,    // 36:32
+    es_rf_data,    // 31:0
+    es_blk_valid
 } = es_fwd_blk_bus;
 
-wire        ms_rf_wen;
+wire        ms_fwd_valid;
 wire [ 4:0] ms_rf_dest;
+wire [31:0] ms_rf_data;
 assign {
-    ms_rf_wen,
-    ms_rf_dest
+    ms_fwd_valid,   // 37:37
+    ms_rf_dest,    // 36:32
+    ms_rf_data     // 31:0
 } = ms_fwd_blk_bus;
-
-wire        ws_rf_wen;
-wire [ 4:0] ws_rf_dest;
-assign {
-    ws_rf_wen,
-    ws_rf_dest
-} = ws_fwd_blk_bus;
-
 wire        br_stall;
 wire        br_taken;
 wire [31:0] br_target;
@@ -148,9 +145,7 @@ assign ds_to_es_bus = {alu_op      ,  //135:124
                       };
 
 assign ds_ready_go    = !(
-    (es_rf_wen && (es_rf_dest == rs || es_rf_dest == rt)) ||
-    (ms_rf_wen && (ms_rf_dest == rs || ms_rf_dest == rt)) ||
-    (ws_rf_wen && (ws_rf_dest == rs || ws_rf_dest == rt))
+    es_blk_valid  && (es_rf_dest == rs || es_rf_dest == rt)
 );
 
 assign ds_allowin     = !ds_valid || ds_ready_go && es_allowin;
@@ -245,8 +240,16 @@ regfile u_regfile(
     .wdata  (rf_wdata )
     );
 
-assign rs_value = rf_rdata1;
-assign rt_value = rf_rdata2;
+assign rs_value = 
+    (es_fwd_valid && es_rf_dest == rs)? es_rf_data :
+    (ms_fwd_valid && ms_rf_dest == rs)? ms_rf_data :
+    (rf_we        && rf_waddr   == rs)? rf_wdata   :
+    rf_rdata1;
+assign rt_value = 
+    (es_fwd_valid && es_rf_dest == rt)? es_rf_data :
+    (ms_fwd_valid && ms_rf_dest == rt)? ms_rf_data :
+    (rf_we        && rf_waddr   == rt)? rf_wdata   :
+    rf_rdata2;
 
 // TODO:
 assign br_stall = 1'b0;

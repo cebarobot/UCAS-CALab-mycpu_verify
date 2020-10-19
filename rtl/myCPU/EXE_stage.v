@@ -68,11 +68,16 @@ assign es_to_ms_bus = {es_res_from_mem,  //70:70
                        es_pc             //31:0
                       };
 
-wire        es_rf_wen;
+wire        es_fwd_valid;
 wire [ 4:0] es_rf_dest;
+wire [31:0] es_rf_data;
+wire        es_blk_valid;
+
 assign es_fwd_blk_bus = {
-    es_rf_wen,
-    es_rf_dest
+    es_fwd_valid,   // 37:37
+    es_rf_dest,     // 36:32
+    es_rf_data,     // 31:0
+    es_blk_valid
 };
 
 assign es_ready_go    = 1'b1;
@@ -110,7 +115,10 @@ assign data_sram_wen   = es_mem_we&&es_valid ? 4'hf : 4'h0;
 assign data_sram_addr  = es_alu_result;
 assign data_sram_wdata = es_rt_value;
 
-assign es_rf_wen    = es_valid && es_gr_we;
+assign es_fwd_valid = es_valid && es_gr_we;
 assign es_rf_dest   = es_dest;
+assign es_rf_data   = es_alu_result;
+
+assign es_blk_valid = es_valid && es_res_from_mem;
 
 endmodule

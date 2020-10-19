@@ -44,11 +44,14 @@ assign ms_to_ws_bus = {ms_gr_we       ,  //69:69
                        ms_pc             //31:0
                       };
 
-wire        ms_rf_wen;
+wire        ms_fwd_valid;
 wire [ 4:0] ms_rf_dest;
+wire [31:0] ms_rf_data;
+
 assign ms_fwd_blk_bus = {
-    ms_rf_wen,
-    ms_rf_dest
+    ms_fwd_valid,   // 37:37
+    ms_rf_dest,     // 36:32
+    ms_rf_data      // 31:0
 };
 
 assign ms_ready_go    = 1'b1;
@@ -72,7 +75,8 @@ assign mem_result = data_sram_rdata;
 assign ms_final_result = ms_res_from_mem ? mem_result
                                          : ms_alu_result;
 
-assign ms_rf_wen    = ms_valid && ms_gr_we;
+assign ms_fwd_valid = ms_valid && ms_gr_we;
 assign ms_rf_dest   = ms_dest;
+assign ms_rf_data   = ms_final_result;
 
 endmodule
