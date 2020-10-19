@@ -74,7 +74,7 @@ wire        load_op;
 wire        src1_is_sa;
 wire        src1_is_pc;
 wire        src2_is_imm;
-wire        src2_is_0imm;
+wire        src2_is_uimm;
 wire        src2_is_8;
 wire        res_from_mem;
 wire        gr_we;
@@ -159,7 +159,7 @@ assign ds_to_es_bus = {alu_op      ,  //136:125
                        src1_is_sa  ,  //123:123
                        src1_is_pc  ,  //122:122
                        src2_is_imm ,  //121:122
-                       src2_is_0imm,  //120:120
+                       src2_is_uimm,  //120:120
                        src2_is_8   ,  //119:119
                        gr_we       ,  //118:118
                        mem_we      ,  //117:117
@@ -268,7 +268,7 @@ assign src1_is_sa   = inst_sll   | inst_srl | inst_sra;
 assign src1_is_pc   = inst_jal;
 
 assign src2_is_imm  = inst_addi | inst_addiu | inst_slti | inst_sltiu | inst_lui | inst_lw | inst_sw;
-assign src2_is_0imm = inst_andi | inst_ori | inst_xori;
+assign src2_is_uimm = inst_andi | inst_ori | inst_xori;
 assign src2_is_8    = inst_jal;
 
 assign res_from_mem = inst_lw;

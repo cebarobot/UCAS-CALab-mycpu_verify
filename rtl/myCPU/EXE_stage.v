@@ -44,7 +44,7 @@ assign {es_alu_op      ,  //136:125
         es_src1_is_sa  ,  //123:123
         es_src1_is_pc  ,  //122:122
         es_src2_is_imm ,  //121:121
-        es_src2_is_0imm , //120:120
+        es_src2_is_uimm , //120:120
         es_src2_is_8   ,  //119:119
         es_gr_we       ,  //118:118
         es_mem_we      ,  //117:117
@@ -101,7 +101,7 @@ assign es_alu_src1 = es_src1_is_sa  ? {27'b0, es_imm[10:6]} :
                      es_src1_is_pc  ? es_pc[31:0] :
                                       es_rs_value;
 assign es_alu_src2 = es_src2_is_imm  ? {{16{es_imm[15]}}, es_imm[15:0]} : 
-                     es_src2_is_0imm ? {{16{1'b0      }}, es_imm[15:0]} :
+                     es_src2_is_uimm ? {{16{1'b0      }}, es_imm[15:0]} :
                      es_src2_is_8    ? 32'd8 :
                                       es_rt_value;
 
