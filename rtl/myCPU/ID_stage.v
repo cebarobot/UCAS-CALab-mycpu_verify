@@ -120,6 +120,12 @@ assign ds_ready_go    = 1'b1;
 assign ds_allowin     = !ds_valid || ds_ready_go && es_allowin;
 assign ds_to_es_valid = ds_valid && ds_ready_go;
 always @(posedge clk) begin
+    if (reset) begin
+        ds_valid <= 1'b0;
+    end else if (ds_allowin) begin
+        ds_valid <= fs_to_ds_valid;
+    end
+
     if (fs_to_ds_valid && ds_allowin) begin
         fs_to_ds_bus_r <= fs_to_ds_bus;
     end
@@ -173,6 +179,8 @@ assign alu_op[ 8] = inst_sll;
 assign alu_op[ 9] = inst_srl;
 assign alu_op[10] = inst_sra;
 assign alu_op[11] = inst_lui;
+
+assign load_op = inst_lw;
 
 assign src1_is_sa   = inst_sll   | inst_srl | inst_sra;
 assign src1_is_pc   = inst_jal;

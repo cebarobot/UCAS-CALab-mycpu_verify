@@ -53,7 +53,7 @@ always @(posedge clk) begin
     end
 
     if (es_to_ms_valid && ms_allowin) begin
-        es_to_ms_bus_r  = es_to_ms_bus;
+        es_to_ms_bus_r <= es_to_ms_bus;
     end
 end
 
