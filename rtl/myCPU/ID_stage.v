@@ -32,16 +32,19 @@ assign fs_pc = fs_to_ds_bus[31:0];
 
 wire [31:0] ds_inst;
 wire [31:0] ds_pc  ;
-assign {ds_inst,
-        ds_pc  } = fs_to_ds_bus_r;
+assign {
+    ds_inst,
+    ds_pc
+} = fs_to_ds_bus_r;
 
 wire        rf_we   ;
 wire [ 4:0] rf_waddr;
 wire [31:0] rf_wdata;
-assign {rf_we   ,  //37:37
-        rf_waddr,  //36:32
-        rf_wdata   //31:0
-       } = ws_to_rf_bus;
+assign {
+    rf_we   ,  //37:37
+    rf_waddr,  //36:32
+    rf_wdata   //31:0
+} = ws_to_rf_bus;
 
 // forward & block
 
@@ -138,6 +141,12 @@ wire        inst_bne;
 wire        inst_jal;
 wire        inst_jr;
 
+// data move inst
+wire        inst_mfhi;
+wire        inst_mthi;
+wire        inst_mflo;
+wire        inst_mtlo;
+
 // memory & inst
 wire        inst_lw;
 wire        inst_sw;
@@ -154,21 +163,30 @@ wire        rs_eq_rt;
 
 assign br_bus       = {br_stall,br_taken,br_target};
 
-assign ds_to_es_bus = {alu_op      ,  //136:125
-                       load_op     ,  //124:124
-                       src1_is_sa  ,  //123:123
-                       src1_is_pc  ,  //122:122
-                       src2_is_imm ,  //121:122
-                       src2_is_uimm,  //120:120
-                       src2_is_8   ,  //119:119
-                       gr_we       ,  //118:118
-                       mem_we      ,  //117:117
-                       dest        ,  //116:112
-                       imm         ,  //111:96
-                       rs_value    ,  //95 :64
-                       rt_value    ,  //63 :32
-                       ds_pc          //31 :0
-                      };
+assign ds_to_es_bus = {
+    inst_div    ,  //144:144
+    inst_divu   ,  //143:143
+    inst_mult   ,  //142:142
+    inst_multu  ,  //141:141
+    inst_mthi   ,  //140:140
+    inst_mfhi   ,  //139:139
+    inst_mtlo   ,  //138:138
+    inst_mflo   ,  //137:137
+    alu_op      ,  //136:125
+    load_op     ,  //124:124
+    src1_is_sa  ,  //123:123
+    src1_is_pc  ,  //122:122
+    src2_is_imm ,  //121:122
+    src2_is_uimm,  //120:120
+    src2_is_8   ,  //119:119
+    gr_we       ,  //118:118
+    mem_we      ,  //117:117
+    dest        ,  //116:112
+    imm         ,  //111:96
+    rs_value    ,  //95 :64
+    rt_value    ,  //63 :32
+    ds_pc          //31 :0
+};
 
 assign ds_ready_go    = !(
     es_blk_valid  && (es_rf_dest == rs || es_rf_dest == rt)
@@ -215,11 +233,11 @@ assign inst_slt     = op_d[6'h00] & func_d[6'h2a] & sa_d[5'h00];
 assign inst_slti    = op_d[6'h0a];
 assign inst_sltu    = op_d[6'h00] & func_d[6'h2b] & sa_d[5'h00];
 assign inst_sltiu   = op_d[6'h0b];
+assign inst_lui     = op_d[6'h0f] & rs_d[5'h00];
 assign inst_div     = op_d[6'h00] & func_d[6'h1a] & rd_d[5'h00] & sa_d[5'h00];
 assign inst_divu    = op_d[6'h00] & func_d[6'h1b] & rd_d[5'h00] & sa_d[5'h00];
 assign inst_mult    = op_d[6'h00] & func_d[6'h18] & rd_d[5'h00] & sa_d[5'h00];
 assign inst_multu   = op_d[6'h00] & func_d[6'h19] & rd_d[5'h00] & sa_d[5'h00];
-assign inst_lui     = op_d[6'h0f] & rs_d[5'h00];
 
 // logic inst
 assign inst_and     = op_d[6'h00] & func_d[6'h24] & sa_d[5'h00];
@@ -243,6 +261,12 @@ assign inst_beq     = op_d[6'h04];
 assign inst_bne     = op_d[6'h05];
 assign inst_jal     = op_d[6'h03];
 assign inst_jr      = op_d[6'h00] & func_d[6'h08] & rt_d[5'h00] & rd_d[5'h00] & sa_d[5'h00];
+
+// data move inst
+assign inst_mfhi    = op_d[6'h00] & func_d[6'h10] & rs_d[5'h00] & rt_d[5'h00];
+assign inst_mthi    = op_d[6'h00] & func_d[6'h11] & rt_d[5'h00] & rd_d[5'h00];
+assign inst_mflo    = op_d[6'h00] & func_d[6'h12] & rs_d[5'h00] & rt_d[5'h00];
+assign inst_mtlo    = op_d[6'h00] & func_d[6'h13] & rt_d[5'h00] & rd_d[5'h00];
 
 // memory & inst
 assign inst_lw      = op_d[6'h23];

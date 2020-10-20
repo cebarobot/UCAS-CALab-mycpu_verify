@@ -23,26 +23,32 @@ reg         ms_valid;
 wire        ms_ready_go;
 
 reg [`ES_TO_MS_BUS_WD -1:0] es_to_ms_bus_r;
+wire [31:0] ms_reg_LO_rdata;
+wire [31:0] ms_reg_HI_rdata;
+wire        ms_res_from_LO;
+wire        ms_res_from_HI;
 wire        ms_res_from_mem;
 wire        ms_gr_we;
 wire [ 4:0] ms_dest;
-wire [31:0] ms_alu_result;
+wire [31:0] ms_exe_result;
 wire [31:0] ms_pc;
-assign {ms_res_from_mem,  //70:70
-        ms_gr_we       ,  //69:69
-        ms_dest        ,  //68:64
-        ms_alu_result  ,  //63:32
-        ms_pc             //31:0
-       } = es_to_ms_bus_r;
+assign {
+    ms_res_from_mem,  //70:70
+    ms_gr_we       ,  //69:69
+    ms_dest        ,  //68:64
+    ms_exe_result  ,  //63:32
+    ms_pc             //31:0
+} = es_to_ms_bus_r;
 
 wire [31:0] mem_result;
 wire [31:0] ms_final_result;
 
-assign ms_to_ws_bus = {ms_gr_we       ,  //69:69
-                       ms_dest        ,  //68:64
-                       ms_final_result,  //63:32
-                       ms_pc             //31:0
-                      };
+assign ms_to_ws_bus = {
+    ms_gr_we       ,  //69:69
+    ms_dest        ,  //68:64
+    ms_final_result,  //63:32
+    ms_pc             //31:0
+};
 
 wire        ms_fwd_valid;
 wire [ 4:0] ms_rf_dest;
@@ -72,8 +78,9 @@ end
 
 assign mem_result = data_sram_rdata;
 
-assign ms_final_result = ms_res_from_mem ? mem_result
-                                         : ms_alu_result;
+assign ms_final_result = 
+    ms_res_from_mem ? mem_result        : 
+    ms_exe_result;
 
 assign ms_fwd_valid = ms_valid && ms_gr_we;
 assign ms_rf_dest   = ms_dest;
