@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="inst_ram_synth_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1603161837">
   <File Type="PA-TCL" Name="inst_ram.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="inst_ram_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="inst_ram_reports.tcl"/>
   <File Type="RDS-RDS" Name="inst_ram.vds"/>
   <File Type="RDS-UTIL" Name="inst_ram_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="inst_ram_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="inst_ram.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="inst_ram_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="inst_ram_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/inst_ram">
     <File Path="$PPRDIR/../../rtl/xilinx_ip/inst_ram/inst_ram.xci">
       <FileInfo>

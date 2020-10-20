@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date         : Tue Oct 13 18:20:30 2020
+| Date         : Tue Oct 20 15:02:30 2020
 | Host         : CEBA-X1C running 64-bit major release  (build 9200)
 | Command      : report_utilization -file soc_lite_top_utilization_synth.rpt -pb soc_lite_top_utilization_synth.pb
 | Design       : soc_lite_top
@@ -30,13 +30,13 @@ Table of Contents
 +----------------------------+------+-------+-----------+-------+
 |          Site Type         | Used | Fixed | Available | Util% |
 +----------------------------+------+-------+-----------+-------+
-| Slice LUTs*                | 1171 |     0 |    134600 |  0.87 |
-|   LUT as Logic             | 1123 |     0 |    134600 |  0.83 |
+| Slice LUTs*                | 1488 |     0 |    134600 |  1.11 |
+|   LUT as Logic             | 1440 |     0 |    134600 |  1.07 |
 |   LUT as Memory            |   48 |     0 |     46200 |  0.10 |
 |     LUT as Distributed RAM |   48 |     0 |           |       |
 |     LUT as Shift Register  |    0 |     0 |           |       |
-| Slice Registers            | 1103 |     0 |    269200 |  0.41 |
-|   Register as Flip Flop    | 1103 |     0 |    269200 |  0.41 |
+| Slice Registers            | 1180 |     0 |    269200 |  0.44 |
+|   Register as Flip Flop    | 1180 |     0 |    269200 |  0.44 |
 |   Register as Latch        |    0 |     0 |    269200 |  0.00 |
 | F7 Muxes                   |    4 |     0 |     67300 | <0.01 |
 | F8 Muxes                   |    0 |     0 |     33650 |  0.00 |
@@ -58,8 +58,8 @@ Table of Contents
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
-| 41    |          Yes |         Set |            - |
-| 1062  |          Yes |       Reset |            - |
+| 46    |          Yes |         Set |            - |
+| 1134  |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -79,11 +79,12 @@ Table of Contents
 3. DSP
 ------
 
-+-----------+------+-------+-----------+-------+
-| Site Type | Used | Fixed | Available | Util% |
-+-----------+------+-------+-----------+-------+
-| DSPs      |    0 |     0 |       740 |  0.00 |
-+-----------+------+-------+-----------+-------+
++----------------+------+-------+-----------+-------+
+|    Site Type   | Used | Fixed | Available | Util% |
++----------------+------+-------+-----------+-------+
+| DSPs           |    7 |     0 |       740 |  0.95 |
+|   DSP48E1 only |    7 |       |           |       |
++----------------+------+-------+-----------+-------+
 
 
 4. IO and GT Specific
@@ -151,19 +152,20 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDRE     | 1062 |        Flop & Latch |
-| LUT6     |  634 |                 LUT |
-| LUT4     |  272 |                 LUT |
-| LUT3     |  137 |                 LUT |
-| LUT5     |  136 |                 LUT |
+| FDRE     | 1134 |        Flop & Latch |
+| LUT6     |  694 |                 LUT |
+| LUT5     |  338 |                 LUT |
+| LUT4     |  234 |                 LUT |
+| LUT2     |  174 |                 LUT |
+| LUT3     |   88 |                 LUT |
+| CARRY4   |   84 |          CarryLogic |
 | RAMD32   |   72 |  Distributed Memory |
-| LUT2     |   58 |                 LUT |
-| CARRY4   |   56 |          CarryLogic |
-| FDSE     |   41 |        Flop & Latch |
+| FDSE     |   46 |        Flop & Latch |
 | OBUF     |   39 |                  IO |
 | RAMS32   |   24 |  Distributed Memory |
 | IBUF     |   15 |                  IO |
 | LUT1     |    9 |                 LUT |
+| DSP48E1  |    7 |    Block Arithmetic |
 | MUXF7    |    4 |               MuxFx |
 +----------+------+---------------------+
 
@@ -171,13 +173,15 @@ Table of Contents
 8. Black Boxes
 --------------
 
-+----------+------+
-| Ref Name | Used |
-+----------+------+
-| inst_ram |    1 |
-| data_ram |    1 |
-| clk_pll  |    1 |
-+----------+------+
++------------------+------+
+|     Ref Name     | Used |
++------------------+------+
+| unsigned_divider |    1 |
+| signed_divider   |    1 |
+| inst_ram         |    1 |
+| data_ram         |    1 |
+| clk_pll          |    1 |
++------------------+------+
 
 
 9. Instantiated Netlists

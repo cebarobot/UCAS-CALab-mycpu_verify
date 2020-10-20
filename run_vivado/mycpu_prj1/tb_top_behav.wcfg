@@ -11,15 +11,18 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="888465502fs"></ZoomStartTime>
-      <ZoomEndTime time="888599300fs"></ZoomEndTime>
-      <Cursor1Time time="888521886fs"></Cursor1Time>
+      <ZoomStartTime time="843683317fs"></ZoomStartTime>
+      <ZoomEndTime time="843798218fs"></ZoomEndTime>
+      <Cursor1Time time="843695000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="174"></NameColumnWidth>
-      <ValueColumnWidth column_width="110"></ValueColumnWidth>
+      <NameColumnWidth column_width="207"></NameColumnWidth>
+      <ValueColumnWidth column_width="105"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="14" />
+   <WVObjectSize size="17" />
+   <wave_markers>
+      <marker time="843695000" label="" />
+   </wave_markers>
    <wvobject fp_name="/tb_top/resetn" type="logic">
       <obj_property name="ElementShortName">resetn</obj_property>
       <obj_property name="ObjectShortName">resetn</obj_property>
@@ -255,6 +258,188 @@
          <obj_property name="ObjectShortName">ws_pc[31:0]</obj_property>
       </wvobject>
    </wvobject>
+   <wvobject fp_name="group162" type="group">
+      <obj_property name="label">STAGE_VALID</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/if_stage/fs_valid" type="logic">
+         <obj_property name="ElementShortName">fs_valid</obj_property>
+         <obj_property name="ObjectShortName">fs_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/ds_valid" type="logic">
+         <obj_property name="ElementShortName">ds_valid</obj_property>
+         <obj_property name="ObjectShortName">ds_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/es_valid" type="logic">
+         <obj_property name="ElementShortName">es_valid</obj_property>
+         <obj_property name="ObjectShortName">es_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/mem_stage/ms_valid" type="logic">
+         <obj_property name="ElementShortName">ms_valid</obj_property>
+         <obj_property name="ObjectShortName">ms_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/wb_stage/ws_valid" type="logic">
+         <obj_property name="ElementShortName">ws_valid</obj_property>
+         <obj_property name="ObjectShortName">ws_valid</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group201" type="group">
+      <obj_property name="label">INST</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_add" type="logic">
+         <obj_property name="ElementShortName">inst_add</obj_property>
+         <obj_property name="ObjectShortName">inst_add</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_addi" type="logic">
+         <obj_property name="ElementShortName">inst_addi</obj_property>
+         <obj_property name="ObjectShortName">inst_addi</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_addu" type="logic">
+         <obj_property name="ElementShortName">inst_addu</obj_property>
+         <obj_property name="ObjectShortName">inst_addu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_addiu" type="logic">
+         <obj_property name="ElementShortName">inst_addiu</obj_property>
+         <obj_property name="ObjectShortName">inst_addiu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sub" type="logic">
+         <obj_property name="ElementShortName">inst_sub</obj_property>
+         <obj_property name="ObjectShortName">inst_sub</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_subu" type="logic">
+         <obj_property name="ElementShortName">inst_subu</obj_property>
+         <obj_property name="ObjectShortName">inst_subu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_slt" type="logic">
+         <obj_property name="ElementShortName">inst_slt</obj_property>
+         <obj_property name="ObjectShortName">inst_slt</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_slti" type="logic">
+         <obj_property name="ElementShortName">inst_slti</obj_property>
+         <obj_property name="ObjectShortName">inst_slti</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sltu" type="logic">
+         <obj_property name="ElementShortName">inst_sltu</obj_property>
+         <obj_property name="ObjectShortName">inst_sltu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sltiu" type="logic">
+         <obj_property name="ElementShortName">inst_sltiu</obj_property>
+         <obj_property name="ObjectShortName">inst_sltiu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_div" type="logic">
+         <obj_property name="ElementShortName">inst_div</obj_property>
+         <obj_property name="ObjectShortName">inst_div</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_divu" type="logic">
+         <obj_property name="ElementShortName">inst_divu</obj_property>
+         <obj_property name="ObjectShortName">inst_divu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_mult" type="logic">
+         <obj_property name="ElementShortName">inst_mult</obj_property>
+         <obj_property name="ObjectShortName">inst_mult</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_multu" type="logic">
+         <obj_property name="ElementShortName">inst_multu</obj_property>
+         <obj_property name="ObjectShortName">inst_multu</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_lui" type="logic">
+         <obj_property name="ElementShortName">inst_lui</obj_property>
+         <obj_property name="ObjectShortName">inst_lui</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_and" type="logic">
+         <obj_property name="ElementShortName">inst_and</obj_property>
+         <obj_property name="ObjectShortName">inst_and</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_andi" type="logic">
+         <obj_property name="ElementShortName">inst_andi</obj_property>
+         <obj_property name="ObjectShortName">inst_andi</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_nor" type="logic">
+         <obj_property name="ElementShortName">inst_nor</obj_property>
+         <obj_property name="ObjectShortName">inst_nor</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_or" type="logic">
+         <obj_property name="ElementShortName">inst_or</obj_property>
+         <obj_property name="ObjectShortName">inst_or</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_ori" type="logic">
+         <obj_property name="ElementShortName">inst_ori</obj_property>
+         <obj_property name="ObjectShortName">inst_ori</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_xor" type="logic">
+         <obj_property name="ElementShortName">inst_xor</obj_property>
+         <obj_property name="ObjectShortName">inst_xor</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_xori" type="logic">
+         <obj_property name="ElementShortName">inst_xori</obj_property>
+         <obj_property name="ObjectShortName">inst_xori</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sllv" type="logic">
+         <obj_property name="ElementShortName">inst_sllv</obj_property>
+         <obj_property name="ObjectShortName">inst_sllv</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sll" type="logic">
+         <obj_property name="ElementShortName">inst_sll</obj_property>
+         <obj_property name="ObjectShortName">inst_sll</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_srav" type="logic">
+         <obj_property name="ElementShortName">inst_srav</obj_property>
+         <obj_property name="ObjectShortName">inst_srav</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sra" type="logic">
+         <obj_property name="ElementShortName">inst_sra</obj_property>
+         <obj_property name="ObjectShortName">inst_sra</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_srlv" type="logic">
+         <obj_property name="ElementShortName">inst_srlv</obj_property>
+         <obj_property name="ObjectShortName">inst_srlv</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_srl" type="logic">
+         <obj_property name="ElementShortName">inst_srl</obj_property>
+         <obj_property name="ObjectShortName">inst_srl</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_beq" type="logic">
+         <obj_property name="ElementShortName">inst_beq</obj_property>
+         <obj_property name="ObjectShortName">inst_beq</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_bne" type="logic">
+         <obj_property name="ElementShortName">inst_bne</obj_property>
+         <obj_property name="ObjectShortName">inst_bne</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_jal" type="logic">
+         <obj_property name="ElementShortName">inst_jal</obj_property>
+         <obj_property name="ObjectShortName">inst_jal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_jr" type="logic">
+         <obj_property name="ElementShortName">inst_jr</obj_property>
+         <obj_property name="ObjectShortName">inst_jr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_mfhi" type="logic">
+         <obj_property name="ElementShortName">inst_mfhi</obj_property>
+         <obj_property name="ObjectShortName">inst_mfhi</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_mthi" type="logic">
+         <obj_property name="ElementShortName">inst_mthi</obj_property>
+         <obj_property name="ObjectShortName">inst_mthi</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_mflo" type="logic">
+         <obj_property name="ElementShortName">inst_mflo</obj_property>
+         <obj_property name="ObjectShortName">inst_mflo</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_mtlo" type="logic">
+         <obj_property name="ElementShortName">inst_mtlo</obj_property>
+         <obj_property name="ObjectShortName">inst_mtlo</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_lw" type="logic">
+         <obj_property name="ElementShortName">inst_lw</obj_property>
+         <obj_property name="ObjectShortName">inst_lw</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/id_stage/inst_sw" type="logic">
+         <obj_property name="ElementShortName">inst_sw</obj_property>
+         <obj_property name="ObjectShortName">inst_sw</obj_property>
+      </wvobject>
+   </wvobject>
    <wvobject fp_name="group45" type="group">
       <obj_property name="label">IF_STAGE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -346,7 +531,6 @@
    <wvobject fp_name="group60" type="group">
       <obj_property name="label">EXE_STAGE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/es_allowin" type="logic">
          <obj_property name="ElementShortName">es_allowin</obj_property>
          <obj_property name="ObjectShortName">es_allowin</obj_property>
@@ -408,10 +592,6 @@
          <obj_property name="ElementShortName">ms_res_from_mem</obj_property>
          <obj_property name="ObjectShortName">ms_res_from_mem</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_top/soc_lite/cpu/mem_stage/ms_alu_result" type="array">
-         <obj_property name="ElementShortName">ms_alu_result[31:0]</obj_property>
-         <obj_property name="ObjectShortName">ms_alu_result[31:0]</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_top/soc_lite/cpu/mem_stage/mem_result" type="array">
          <obj_property name="ElementShortName">mem_result[31:0]</obj_property>
          <obj_property name="ObjectShortName">mem_result[31:0]</obj_property>
@@ -440,7 +620,6 @@
    <wvobject fp_name="group304" type="group">
       <obj_property name="label">ALU</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/u_alu/alu_src1" type="array">
          <obj_property name="ElementShortName">alu_src1[31:0]</obj_property>
          <obj_property name="ObjectShortName">alu_src1[31:0]</obj_property>
@@ -500,6 +679,71 @@
       <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/u_alu/op_lui" type="logic">
          <obj_property name="ElementShortName">op_lui</obj_property>
          <obj_property name="ObjectShortName">op_lui</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dividend_tready" type="logic">
+         <obj_property name="ElementShortName">signed_dividend_tready</obj_property>
+         <obj_property name="ObjectShortName">signed_dividend_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dividend_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_dividend_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_dividend_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_divisor_tready" type="logic">
+         <obj_property name="ElementShortName">signed_divisor_tready</obj_property>
+         <obj_property name="ObjectShortName">signed_divisor_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_divisor_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_divisor_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_divisor_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dout_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_dout_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_dout_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dividend_tready" type="logic">
+         <obj_property name="ElementShortName">signed_dividend_tready</obj_property>
+         <obj_property name="ObjectShortName">signed_dividend_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dividend_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_dividend_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_dividend_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_divisor_tready" type="logic">
+         <obj_property name="ElementShortName">signed_divisor_tready</obj_property>
+         <obj_property name="ObjectShortName">signed_divisor_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_divisor_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_divisor_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_divisor_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dout_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_dout_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_dout_tvalid</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group217" type="group">
+      <obj_property name="label">DIV_handshake</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dividend_tready" type="logic">
+         <obj_property name="ElementShortName">signed_dividend_tready</obj_property>
+         <obj_property name="ObjectShortName">signed_dividend_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dividend_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_dividend_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_dividend_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_divisor_tready" type="logic">
+         <obj_property name="ElementShortName">signed_divisor_tready</obj_property>
+         <obj_property name="ObjectShortName">signed_divisor_tready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_divisor_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_divisor_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_divisor_tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_top/soc_lite/cpu/exe_stage/signed_dout_tvalid" type="logic">
+         <obj_property name="ElementShortName">signed_dout_tvalid</obj_property>
+         <obj_property name="ObjectShortName">signed_dout_tvalid</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

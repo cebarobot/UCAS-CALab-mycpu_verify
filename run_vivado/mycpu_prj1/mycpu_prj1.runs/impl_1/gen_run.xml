@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1602584484">
+<GenRun Id="impl_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1603177180">
+  <File Type="BITSTR-BMM" Name="soc_lite_top_bd.bmm"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="soc_lite_top_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="soc_lite_top_timing_summary_init.rpt"/>
   <File Type="ROUTE-PWR" Name="soc_lite_top_power_routed.rpt"/>
   <File Type="PA-TCL" Name="soc_lite_top.tcl"/>
-  <File Type="BITSTR-BMM" Name="soc_lite_top_bd.bmm"/>
+  <File Type="OPT-TIMING" Name="soc_lite_top_timing_summary_opted.rpt"/>
+  <File Type="OPT-DCP" Name="soc_lite_top_opt.dcp"/>
   <File Type="ROUTE-PWR-SUM" Name="soc_lite_top_power_summary_routed.pb"/>
   <File Type="REPORTS-TCL" Name="soc_lite_top_reports.tcl"/>
-  <File Type="OPT-DCP" Name="soc_lite_top_opt.dcp"/>
   <File Type="OPT-DRC" Name="soc_lite_top_drc_opted.rpt"/>
   <File Type="OPT-HWDEF" Name="soc_lite_top.hwdef"/>
   <File Type="PWROPT-DCP" Name="soc_lite_top_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="soc_lite_top_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="soc_lite_top_timing_summary_pwropted.rpt"/>
   <File Type="PLACE-DCP" Name="soc_lite_top_placed.dcp"/>
   <File Type="PLACE-IO" Name="soc_lite_top_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="soc_lite_top_clock_utilization_placed.rpt"/>
   <File Type="PLACE-UTIL" Name="soc_lite_top_utilization_placed.rpt"/>
   <File Type="PLACE-UTIL-PB" Name="soc_lite_top_utilization_placed.pb"/>
   <File Type="PLACE-CTRL" Name="soc_lite_top_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="soc_lite_top_incremental_reuse_placed.rpt"/>
   <File Type="PLACE-PRE-SIMILARITY" Name="soc_lite_top_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="soc_lite_top_timing_summary_placed.rpt"/>
   <File Type="POSTPLACE-PWROPT-DCP" Name="soc_lite_top_postplace_pwropt.dcp"/>
   <File Type="BG-BIN" Name="soc_lite_top.bin"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="soc_lite_top_timing_summary_postplace_pwropted.rpt"/>
   <File Type="PHYSOPT-DCP" Name="soc_lite_top_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="soc_lite_top_drc_physopted.rpt"/>
   <File Type="BITSTR-MSK" Name="soc_lite_top.msk"/>
+  <File Type="PHYSOPT-TIMING" Name="soc_lite_top_timing_summary_physopted.rpt"/>
   <File Type="ROUTE-ERROR-DCP" Name="soc_lite_top_routed_error.dcp"/>
   <File Type="ROUTE-DCP" Name="soc_lite_top_routed.dcp"/>
   <File Type="ROUTE-BLACKBOX-DCP" Name="soc_lite_top_routed_bb.dcp"/>
   <File Type="ROUTE-DRC" Name="soc_lite_top_drc_routed.rpt"/>
   <File Type="ROUTE-DRC-PB" Name="soc_lite_top_drc_routed.pb"/>
   <File Type="ROUTE-DRC-RPX" Name="soc_lite_top_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="soc_lite_top_methodology_drc_routed.rpt"/>
   <File Type="BITSTR-MMI" Name="soc_lite_top.mmi"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="soc_lite_top_methodology_drc_routed.rpt"/>
   <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="soc_lite_top_methodology_drc_routed.rpx"/>
   <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="soc_lite_top_methodology_drc_routed.pb"/>
   <File Type="ROUTE-PWR-RPX" Name="soc_lite_top_power_routed.rpx"/>
@@ -35,13 +46,20 @@
   <File Type="ROUTE-TIMINGSUMMARY" Name="soc_lite_top_timing_summary_routed.rpt"/>
   <File Type="ROUTE-TIMING-PB" Name="soc_lite_top_timing_summary_routed.pb"/>
   <File Type="ROUTE-TIMING-RPX" Name="soc_lite_top_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="soc_lite_top_incremental_reuse_routed.rpt"/>
   <File Type="ROUTE-CLK" Name="soc_lite_top_clock_utilization_routed.rpt"/>
   <File Type="ROUTE-BUS-SKEW" Name="soc_lite_top_bus_skew_routed.rpt"/>
   <File Type="ROUTE-BUS-SKEW-PB" Name="soc_lite_top_bus_skew_routed.pb"/>
   <File Type="ROUTE-BUS-SKEW-RPX" Name="soc_lite_top_bus_skew_routed.rpx"/>
   <File Type="POSTROUTE-PHYSOPT-DCP" Name="soc_lite_top_postroute_physopt.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="soc_lite_top_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="soc_lite_top_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="soc_lite_top_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="soc_lite_top_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="soc_lite_top_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="soc_lite_top_bus_skew_postroute_physopted.pb"/>
   <File Type="BG-BIT" Name="soc_lite_top.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="soc_lite_top_bus_skew_postroute_physopted.rpx"/>
   <File Type="BITSTR-RBT" Name="soc_lite_top.rbt"/>
   <File Type="BITSTR-NKY" Name="soc_lite_top.nky"/>
   <File Type="PDI-FILE" Name="soc_lite_top.pdi"/>
@@ -50,6 +68,7 @@
   <File Type="RNPI_FILE" Name="soc_lite_top.rnpi"/>
   <File Type="NPI_FILE" Name="soc_lite_top.npi"/>
   <File Type="RBD_FILE" Name="soc_lite_top.rbd"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
   <File Type="BITSTR-LTX" Name="soc_lite_top.ltx"/>
   <File Type="BITSTR-SYSDEF" Name="soc_lite_top.sysdef"/>
   <File Type="BG-BGN" Name="soc_lite_top.bgn"/>
@@ -58,6 +77,20 @@
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/ip/signed_divider/signed_divider.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/unsigned_divider/unsigned_divider.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PPRDIR/../../rtl/myCPU/mycpu.h">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -160,6 +193,12 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PPRDIR/../../../soft/func_lab6/obj/inst_ram.coe">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
       <Option Name="TopModule" Val="soc_lite_top"/>
@@ -195,7 +234,6 @@
     <Step Id="route_design"/>
     <Step Id="post_route_phys_opt_design"/>
     <Step Id="write_bitstream"/>
-    <Step Id="write_device_image"/>
   </Strategy>
   <BlockFileSet Type="BlockSrcs" Name="clk_pll"/>
   <BlockFileSet Type="BlockSrcs" Name="data_ram"/>
