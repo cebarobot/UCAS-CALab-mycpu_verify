@@ -186,6 +186,9 @@ reg  unsigned_dividend_sent;
 reg  unsigned_divisor_sent;
 reg  unsigned_divider_done;
 
+assign unsigned_dividend_tvalid = es_valid && es_inst_divu && !unsigned_dividend_sent;
+assign unsigned_divisor_tvalid = es_valid && es_inst_divu && !unsigned_divisor_sent;
+
 always @ (posedge clk) begin
     if (reset) begin
         unsigned_dividend_sent <= 1'b0;
@@ -215,6 +218,9 @@ end
 reg  signed_dividend_sent;
 reg  signed_divisor_sent;
 reg  signed_divider_done;
+
+assign signed_dividend_tvalid = es_valid && es_inst_div && !signed_dividend_sent;
+assign signed_divisor_tvalid = es_valid && es_inst_div && !signed_divisor_sent;
 
 always @ (posedge clk) begin
     if (reset) begin
