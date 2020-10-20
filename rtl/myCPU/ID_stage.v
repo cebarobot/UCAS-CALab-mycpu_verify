@@ -301,7 +301,8 @@ assign dst_is_r31   = inst_jal;
 assign dst_is_rt    = inst_addi | inst_addiu | inst_slti | inst_sltiu | inst_lui | inst_andi | inst_ori | 
                       inst_xori | inst_lw;
 
-assign gr_we        = ~inst_sw & ~inst_beq & ~inst_bne & ~inst_jr;
+assign gr_we        = ~inst_sw & ~inst_beq & ~inst_bne & ~inst_jr & 
+                      ~inst_mtlo & ~inst_mthi & ~inst_div & ~inst_divu & ~inst_mult & ~inst_multu;
 assign mem_we       = inst_sw;
 
 assign dest         = dst_is_r31 ? 5'd31 :
