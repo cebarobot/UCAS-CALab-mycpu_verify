@@ -109,22 +109,6 @@ assign es_fwd_blk_bus = {
     es_blk_valid
 };
 
-assign es_ready_go    = 1'b1;
-assign es_allowin     = !es_valid || es_ready_go && ms_allowin;
-assign es_to_ms_valid =  es_valid && es_ready_go;
-always @(posedge clk) begin
-    if (reset) begin
-        es_valid <= 1'b0;
-    end
-    else if (es_allowin) begin
-        es_valid <= ds_to_es_valid;
-    end
-
-    if (ds_to_es_valid && es_allowin) begin
-        ds_to_es_bus_r <= ds_to_es_bus;
-    end
-end
-
 assign es_alu_src1 = es_src1_is_sa  ? {27'b0, es_imm[10:6]} : 
                      es_src1_is_pc  ? es_pc[31:0] :
                                       es_rs_value;
@@ -139,17 +123,6 @@ alu u_alu(
     .alu_src2   (es_alu_src2  ),
     .alu_result (es_alu_result)
     );
-
-assign data_sram_en    = 1'b1;
-assign data_sram_wen   = es_mem_we&&es_valid ? 4'hf : 4'h0;
-assign data_sram_addr  = es_alu_result;
-assign data_sram_wdata = es_rt_value;
-
-assign es_fwd_valid = es_valid && es_gr_we;
-assign es_rf_dest   = es_dest;
-assign es_rf_data   = es_exe_result;
-
-assign es_blk_valid = es_valid && es_res_from_mem;
 
 // Mult & Multu
 wire [31:0] mult_src1;
@@ -169,16 +142,19 @@ wire [31:0] divider_divisor;
 wire [63:0] unsigned_divider_res;
 wire [63:0] signed_divider_res;
 
+assign divider_dividend = es_rs_value;
+assign divider_divisor  = es_rt_value;
+
 wire unsigned_dividend_tready;
-reg  unsigned_dividend_tvalid;
+wire unsigned_dividend_tvalid;
 wire unsigned_divisor_tready;
-reg  unsigned_divisor_tvalid;
+wire unsigned_divisor_tvalid;
 wire unsigned_dout_tvalid;
 
 wire signed_dividend_tready;
-reg  signed_dividend_tvalid;
+wire signed_dividend_tvalid;
 wire signed_divisor_tready;
-reg  signed_divisor_tvalid;
+wire signed_divisor_tvalid;
 wire signed_dout_tvalid;
 
 unsigned_divider u_unsigned_divider (
@@ -204,6 +180,68 @@ signed_divider u_signed_divider (
     .m_axis_dout_tdata      (signed_divider_res),
     .m_axis_dout_tvalid     (signed_dout_tvalid)
 );
+
+// Divider status control
+reg  unsigned_dividend_sent;
+reg  unsigned_divisor_sent;
+reg  unsigned_divider_done;
+
+always @ (posedge clk) begin
+    if (reset) begin
+        unsigned_dividend_sent <= 1'b0;
+    end else if (unsigned_dividend_tready && unsigned_dividend_tvalid) begin
+        unsigned_dividend_sent <= 1'b1;
+    end else if (es_ready_go && ms_allowin) begin
+        unsigned_dividend_sent <= 1'b0;
+    end
+    
+    if (reset) begin
+        unsigned_divisor_sent <= 1'b0;
+    end else if (unsigned_divisor_tready && unsigned_divisor_tvalid) begin
+        unsigned_divisor_sent <= 1'b1;
+    end else if (es_ready_go && ms_allowin) begin
+        unsigned_divisor_sent <= 1'b0;
+    end
+
+    if (reset) begin
+        unsigned_divider_done <= 1'b0;
+    end else if (es_ready_go && !ms_allowin) begin
+        unsigned_divider_done <= 1'b1;
+    end else if (ms_allowin) begin
+        unsigned_divider_done <= 1'b0;
+    end
+end
+
+reg  signed_dividend_sent;
+reg  signed_divisor_sent;
+reg  signed_divider_done;
+
+always @ (posedge clk) begin
+    if (reset) begin
+        signed_dividend_sent <= 1'b0;
+    end else if (signed_dividend_tready && signed_dividend_tvalid) begin
+        signed_dividend_sent <= 1'b1;
+    end else if (es_ready_go && ms_allowin) begin
+        signed_dividend_sent <= 1'b0;
+    end
+    
+    if (reset) begin
+        signed_divisor_sent <= 1'b0;
+    end else if (signed_divisor_tready && signed_divisor_tvalid) begin
+        signed_divisor_sent <= 1'b1;
+    end else if (es_ready_go && ms_allowin) begin
+        signed_divisor_sent <= 1'b0;
+    end
+
+    if (reset) begin
+        signed_divider_done <= 1'b0;
+    end else if (es_ready_go && !ms_allowin) begin
+        signed_divider_done <= 1'b1;
+    end else if (ms_allowin) begin
+        signed_divider_done <= 1'b0;
+    end
+end
+
 
 // LO & HI
 always @ (posedge clk) begin
@@ -240,5 +278,38 @@ assign reg_HI_wdata =
 
 assign reg_LO_rdata = reg_LO;
 assign reg_HI_rdata = reg_HI;
+
+// SRAM
+assign data_sram_en    = 1'b1;
+assign data_sram_wen   = es_mem_we&&es_valid ? 4'hf : 4'h0;
+assign data_sram_addr  = es_alu_result;
+assign data_sram_wdata = es_rt_value;
+
+// Block & Forward
+assign es_fwd_valid = es_valid && es_gr_we;
+assign es_rf_dest   = es_dest;
+assign es_rf_data   = es_exe_result;
+
+assign es_blk_valid = es_valid && es_res_from_mem;
+
+// Pipeline
+assign es_ready_go    = 
+    es_inst_div     ? signed_dout_tvalid || signed_divider_done :
+    es_inst_divu    ? unsigned_dout_tvalid || unsigned_divider_done :
+    1'b1;
+assign es_allowin     = !es_valid || es_ready_go && ms_allowin;
+assign es_to_ms_valid =  es_valid && es_ready_go;
+always @(posedge clk) begin
+    if (reset) begin
+        es_valid <= 1'b0;
+    end
+    else if (es_allowin) begin
+        es_valid <= ds_to_es_valid;
+    end
+
+    if (ds_to_es_valid && es_allowin) begin
+        ds_to_es_bus_r <= ds_to_es_bus;
+    end
+end
 
 endmodule
