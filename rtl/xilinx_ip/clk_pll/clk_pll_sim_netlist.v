@@ -1,10 +1,10 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-// Date        : Tue Sep 29 15:04:24 2020
-// Host        : CEBA-X1C running 64-bit major release  (build 9200)
+// Date        : Tue Oct 20 18:37:34 2020
+// Host        : LAPTOP-N3SV2ADE running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/clk_pll/clk_pll_sim_netlist.v
+//               D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/clk_pll/clk_pll_sim_netlist.v
 // Design      : clk_pll
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.

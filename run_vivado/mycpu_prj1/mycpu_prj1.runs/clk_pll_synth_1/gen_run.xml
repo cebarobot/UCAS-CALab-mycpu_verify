@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="clk_pll_synth_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1601363022">
+<GenRun Id="clk_pll_synth_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1603190187">
   <File Type="PA-TCL" Name="clk_pll.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="clk_pll_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="clk_pll_reports.tcl"/>
   <File Type="RDS-RDS" Name="clk_pll.vds"/>
   <File Type="RDS-UTIL" Name="clk_pll_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="clk_pll_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="clk_pll.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="clk_pll_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="clk_pll_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/clk_pll">
     <File Path="$PPRDIR/../../rtl/xilinx_ip/clk_pll/clk_pll.xci">
       <FileInfo>

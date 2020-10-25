@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="44" Path="C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.xpr">
+<Project Version="7" Minor="44" Path="D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="f15e9bfb5a9b4535b613f06853ed1e9d"/>
@@ -30,20 +30,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="UseIPStaticLibs" Val="0"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="30"/>
+    <Option Name="WTXSimLaunchSim" Val="31"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="18"/>
-    <Option Name="WTModelSimExportSim" Val="18"/>
-    <Option Name="WTQuestaExportSim" Val="18"/>
-    <Option Name="WTIesExportSim" Val="18"/>
-    <Option Name="WTVcsExportSim" Val="18"/>
-    <Option Name="WTRivieraExportSim" Val="18"/>
-    <Option Name="WTActivehdlExportSim" Val="18"/>
+    <Option Name="WTXSimExportSim" Val="20"/>
+    <Option Name="WTModelSimExportSim" Val="20"/>
+    <Option Name="WTQuestaExportSim" Val="20"/>
+    <Option Name="WTIesExportSim" Val="20"/>
+    <Option Name="WTVcsExportSim" Val="20"/>
+    <Option Name="WTRivieraExportSim" Val="20"/>
+    <Option Name="WTActivehdlExportSim" Val="20"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>

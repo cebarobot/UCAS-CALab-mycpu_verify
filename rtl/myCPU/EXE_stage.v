@@ -35,6 +35,24 @@ wire [31:0] reg_LO_rdata;
 wire [31:0] reg_HI_rdata;
 
 reg  [`DS_TO_ES_BUS_WD -1:0] ds_to_es_bus_r;
+wire        es_inst_lb     ;
+wire        es_inst_lbu    ;
+wire        es_inst_lh     ;
+wire        es_inst_lhu    ;
+wire        es_inst_lwl    ;
+wire        es_inst_lwr    ;
+wire        es_inst_sb     ;
+wire        es_inst_sh     ;
+wire        es_inst_swl    ;
+wire        es_inst_swr    ;
+wire        es_inst_div    ;
+wire        es_inst_divu   ;
+wire        es_inst_mult   ;
+wire        es_inst_multu  ;
+wire        es_inst_mfhi   ;
+wire        es_inst_mthi   ;
+wire        es_inst_mflo   ;
+wire        es_inst_mtlo   ;
 wire [11:0] es_alu_op     ;
 wire        es_load_op    ;
 wire        es_src1_is_sa ;  
@@ -49,6 +67,16 @@ wire [31:0] es_rs_value   ;
 wire [31:0] es_rt_value   ;
 wire [31:0] es_pc         ;
 assign {
+    es_inst_lb         ,  //154:154
+    es_inst_lbu        ,  //153:153
+    es_inst_lh         ,  //152:152
+    es_inst_lhu        ,  //151:151
+    es_inst_lwl        ,  //150:150
+    es_inst_lwr        ,  //149:149
+    es_inst_sb         ,  //148:148
+    es_inst_sh         ,  //147:147
+    es_inst_swl        ,  //146:146
+    es_inst_swr        ,  //145:145
     es_inst_div    ,  //144:144
     es_inst_divu   ,  //143:143
     es_inst_mult   ,  //142:142
@@ -90,6 +118,12 @@ assign es_exe_result =
     es_alu_result;
 
 assign es_to_ms_bus = {
+    es_inst_lb      ,  //76:76
+    es_inst_lbu     ,  //75:75
+    es_inst_lh      ,  //74:74
+    es_inst_lhu     ,  //73:73
+    es_inst_lwl     ,  //72:72
+    es_inst_lwr     ,  //71:71
     es_res_from_mem ,  //70:70
     es_gr_we        ,  //69:69
     es_dest         ,  //68:64

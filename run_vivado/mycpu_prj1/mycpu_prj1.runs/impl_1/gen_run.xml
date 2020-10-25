@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1603177180">
+<GenRun Id="impl_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1603190202">
   <File Type="BITSTR-BMM" Name="soc_lite_top_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="soc_lite_top_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="soc_lite_top_timing_summary_init.rpt"/>
