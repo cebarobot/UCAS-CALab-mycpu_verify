@@ -424,15 +424,14 @@ assign rt_value[31:24] =
     (rf_we       [3] && rf_waddr   == rt)? rf_wdata  [31:24] :
     rf_rdata2  [31:24];
 
-//lab7 TODO:
+// TODO:
+assign br_stall = 1'b0;
+
 wire judge_bgez;
 wire judge_bgtz;
 
 assign judge_bgez = ~rs_value[31];                          //  >=0
 assign judge_bgtz = (rs_value != 32'b0) & (~rs_value[31]);  //  > 0
-
-// TODO:
-assign br_stall = 1'b0;
 
 assign rs_eq_rt = (rs_value == rt_value);
 assign br_taken = (   inst_beq  &&  rs_eq_rt

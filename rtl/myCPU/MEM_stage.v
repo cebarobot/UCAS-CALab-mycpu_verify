@@ -88,10 +88,31 @@ always @(posedge clk) begin
     end
 end
 
-assign mem_result = data_sram_rdata;
+// TODO lab7
+wire [ 1:0] mem_addr;
+wire [31:0] mem_word;
+wire [15:0] mem_half;
+wire [ 7:0] mem_byte;
+wire [31:0] mem_half_ex;
+wire [31:0] mem_byte_ex;
+
+assign mem_addr = ms_exe_result[1:0];
+assign mem_word = data_sram_rdata;
+assign mem_half = mem_addr[1]? mem_word[31:16] : mem_word[15: 0];
+assign mem_byte = mem_addr[0]? mem_half[15: 8] : mem_half[ 7: 0];
+
+assign mem_half_ex[31:16] = {16{ ms_inst_lh & mem_half[15] }};
+assign mem_half_ex[15: 0] = mem_half;
+assign mem_byte_ex[31: 8] = {24{ ms_inst_lb & mem_byte[15] }};
+assign mem_byte_ex[ 7: 0] = mem_byte;
+
+assign mem_result = 
+    (ms_inst_lb || ms_inst_lbu)? mem_byte_ex :
+    (ms_inst_lh || ms_inst_lhu)? mem_half_ex :
+    mem_word;
 
 assign ms_final_result = 
-    ms_res_from_mem ? mem_result        : 
+    ms_res_from_mem ? mem_result : 
     ms_exe_result;
 
 assign ms_fwd_valid = {4{ ms_valid && ms_gr_we && 1'b1 }};      // 1'b1 for data_sram_rvalid
