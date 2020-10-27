@@ -1,0 +1,47 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Tue Oct 20 18:31:29 2020
+# Process ID: 18180
+# Current directory: D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent39796 D:\vivado_prj\CPU_CDE\my_cpu_verify\run_vivado\mycpu_prj1\mycpu_prj1.xpr
+# Log file: D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/vivado.log
+# Journal file: D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.xpr
+update_compile_order -fileset sources_1
+generate_target Simulation [get_files D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/clk_pll/clk_pll.xci]
+export_ip_user_files -of_objects [get_files D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/clk_pll/clk_pll.xci] -no_script -sync -force -quiet
+export_simulation -of_objects [get_files D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/clk_pll/clk_pll.xci] -directory D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/sim_scripts -ip_user_files_dir D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files -ipstatic_source_dir D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/ipstatic -lib_map_path [list {modelsim=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/modelsim} {questa=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/questa} {riviera=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/riviera} {activehdl=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/activehdl}] -force -quiet
+generate_target Simulation [get_files D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci]
+export_ip_user_files -of_objects [get_files D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci] -no_script -sync -force -quiet
+export_simulation -of_objects [get_files D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci] -directory D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/sim_scripts -ip_user_files_dir D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files -ipstatic_source_dir D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/ipstatic -lib_map_path [list {modelsim=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/modelsim} {questa=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/questa} {riviera=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/riviera} {activehdl=D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/activehdl}] -force -quiet
+launch_simulation
+open_wave_config D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
+source tb_top.tcl
+run all
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 6
+wait_on_run impl_1
+reset_run synth_1
+reset_run clk_pll_synth_1
+reset_run data_ram_synth_1
+reset_run inst_ram_synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 6
+wait_on_run impl_1
+open_hw_manager
+connect_hw_server -url localhost:3121 -allow_non_jtag
+current_hw_target [get_hw_targets */xilinx_tcf/Xilinx/Port_#0002.Hub_#0002]
+set_property PARAM.FREQUENCY 6000000 [get_hw_targets */xilinx_tcf/Xilinx/Port_#0002.Hub_#0002]
+open_hw_target
+set_property PROGRAM.FILE {D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/impl_1/soc_lite_top.bit} [get_hw_devices xc7a200t_0]
+current_hw_device [get_hw_devices xc7a200t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a200t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a200t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a200t_0]
+set_property PROGRAM.FILE {D:/vivado_prj/CPU_CDE/my_cpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/impl_1/soc_lite_top.bit} [get_hw_devices xc7a200t_0]
+program_hw_devices [get_hw_devices xc7a200t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a200t_0] 0]
+close_sim
