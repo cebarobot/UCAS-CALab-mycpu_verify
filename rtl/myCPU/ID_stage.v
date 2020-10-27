@@ -37,36 +37,36 @@ assign {
     ds_pc
 } = fs_to_ds_bus_r;
 
-wire        rf_we   ;
+wire [ 3:0] rf_we;
 wire [ 4:0] rf_waddr;
 wire [31:0] rf_wdata;
 assign {
-    rf_we   ,  //37:37
+    rf_we   ,  //40:37
     rf_waddr,  //36:32
     rf_wdata   //31:0
 } = ws_to_rf_bus;
 
 // forward & block
 
-wire        es_fwd_valid;
+wire [ 3:0] es_fwd_valid;
 wire [ 4:0] es_rf_dest;
 wire [31:0] es_rf_data;
 wire        es_blk_valid;
 wire        es_res_from_mem;
 assign {
-    es_fwd_valid,   // 37:37
-    es_rf_dest,    // 36:32
-    es_rf_data,    // 31:0
-    es_blk_valid
+    es_fwd_valid,   // 41:38
+    es_rf_dest,     // 37:33
+    es_rf_data,     // 32:1
+    es_blk_valid    // 0:0
 } = es_fwd_blk_bus;
 
-wire        ms_fwd_valid;
+wire [ 3:0] ms_fwd_valid;
 wire [ 4:0] ms_rf_dest;
 wire [31:0] ms_rf_data;
 assign {
-    ms_fwd_valid,   // 37:37
-    ms_rf_dest,    // 36:32
-    ms_rf_data     // 31:0
+    ms_fwd_valid,   // 40:37
+    ms_rf_dest,     // 36:32
+    ms_rf_data      // 31:0
 } = ms_fwd_blk_bus;
 wire        br_stall;
 wire        br_taken;
@@ -381,16 +381,48 @@ regfile u_regfile(
     .wdata  (rf_wdata )
     );
 
-assign rs_value = 
-    (es_fwd_valid && es_rf_dest == rs)? es_rf_data :
-    (ms_fwd_valid && ms_rf_dest == rs)? ms_rf_data :
-    (rf_we        && rf_waddr   == rs)? rf_wdata   :
-    rf_rdata1;
-assign rt_value = 
-    (es_fwd_valid && es_rf_dest == rt)? es_rf_data :
-    (ms_fwd_valid && ms_rf_dest == rt)? ms_rf_data :
-    (rf_we        && rf_waddr   == rt)? rf_wdata   :
-    rf_rdata2;
+assign rs_value[ 7: 0] = 
+    (es_fwd_valid[0] && es_rf_dest == rs)? es_rf_data[ 7: 0] :
+    (ms_fwd_valid[0] && ms_rf_dest == rs)? ms_rf_data[ 7: 0] :
+    (rf_we       [0] && rf_waddr   == rs)? rf_wdata  [ 7: 0] :
+    rf_rdata1  [ 7: 0];
+assign rs_value[15: 8] = 
+    (es_fwd_valid[1] && es_rf_dest == rs)? es_rf_data[15: 8] :
+    (ms_fwd_valid[1] && ms_rf_dest == rs)? ms_rf_data[15: 8] :
+    (rf_we       [1] && rf_waddr   == rs)? rf_wdata  [15: 8] :
+    rf_rdata1  [15: 8];
+assign rs_value[23:16] = 
+    (es_fwd_valid[2] && es_rf_dest == rs)? es_rf_data[23:16] :
+    (ms_fwd_valid[2] && ms_rf_dest == rs)? ms_rf_data[23:16] :
+    (rf_we       [2] && rf_waddr   == rs)? rf_wdata  [23:16] :
+    rf_rdata1  [23:16];
+assign rs_value[31:24] = 
+    (es_fwd_valid[3] && es_rf_dest == rs)? es_rf_data[31:24] :
+    (ms_fwd_valid[3] && ms_rf_dest == rs)? ms_rf_data[31:24] :
+    (rf_we       [3] && rf_waddr   == rs)? rf_wdata  [31:24] :
+    rf_rdata1  [31:24];
+
+
+assign rt_value[ 7: 0] = 
+    (es_fwd_valid[0] && es_rf_dest == rt)? es_rf_data[ 7: 0] :
+    (ms_fwd_valid[0] && ms_rf_dest == rt)? ms_rf_data[ 7: 0] :
+    (rf_we       [0] && rf_waddr   == rt)? rf_wdata  [ 7: 0] :
+    rf_rdata2  [ 7: 0];
+assign rt_value[15: 8] = 
+    (es_fwd_valid[1] && es_rf_dest == rt)? es_rf_data[15: 8] :
+    (ms_fwd_valid[1] && ms_rf_dest == rt)? ms_rf_data[15: 8] :
+    (rf_we       [1] && rf_waddr   == rt)? rf_wdata  [15: 8] :
+    rf_rdata2  [15: 8];
+assign rt_value[23:16] = 
+    (es_fwd_valid[2] && es_rf_dest == rt)? es_rf_data[23:16] :
+    (ms_fwd_valid[2] && ms_rf_dest == rt)? ms_rf_data[23:16] :
+    (rf_we       [2] && rf_waddr   == rt)? rf_wdata  [23:16] :
+    rf_rdata2  [23:16];
+assign rt_value[31:24] = 
+    (es_fwd_valid[3] && es_rf_dest == rt)? es_rf_data[31:24] :
+    (ms_fwd_valid[3] && ms_rf_dest == rt)? ms_rf_data[31:24] :
+    (rf_we       [3] && rf_waddr   == rt)? rf_wdata  [31:24] :
+    rf_rdata2  [31:24];
 
 //lab7 TODO:
 wire judge_bgez;

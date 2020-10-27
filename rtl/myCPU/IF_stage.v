@@ -3,9 +3,9 @@
 module if_stage(
     input                          clk            ,
     input                          reset          ,
-    //allwoin
+    // allwoin
     input                          ds_allowin     ,
-    //brbus
+    // br_bus
     input  [`BR_BUS_WD       -1:0] br_bus         ,
     //to ds
     output                         fs_to_ds_valid ,
@@ -25,7 +25,7 @@ wire        to_fs_valid;
 wire        to_fs_ready_go;
 
 wire [31:0] seq_pc;
-wire [31:0] nextpc;
+wire [31:0] next_pc;
 
 wire         br_taken;
 wire [ 31:0] br_target;
@@ -40,7 +40,7 @@ assign fs_to_ds_bus = {fs_inst ,
 assign to_fs_ready_go   = !br_stall;
 assign to_fs_valid      = ~reset && to_fs_ready_go;
 assign seq_pc           = fs_pc + 3'h4;
-assign nextpc           = br_taken ? br_target : seq_pc; 
+assign next_pc          = br_taken ? br_target : seq_pc; 
 
 // IF stage
 assign fs_ready_go    = 1'b1;
@@ -55,16 +55,16 @@ always @(posedge clk) begin
     end
 
     if (reset) begin
-        fs_pc <= 32'hbfbffffc;  //trick: to make nextpc be 0xbfc00000 during reset 
+        fs_pc <= 32'h_bfbffffc;  //trick: to make next_pc be 0xbfc00000 during reset 
     end
     else if (to_fs_valid && fs_allowin) begin
-        fs_pc <= nextpc;
+        fs_pc <= next_pc;
     end
 end
 
 assign inst_sram_en    = to_fs_valid && fs_allowin;
 assign inst_sram_wen   = 4'h0;
-assign inst_sram_addr  = nextpc;
+assign inst_sram_addr  = next_pc;
 assign inst_sram_wdata = 32'b0;
 
 assign fs_inst         = inst_sram_rdata;

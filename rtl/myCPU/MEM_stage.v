@@ -62,12 +62,12 @@ assign ms_to_ws_bus = {
     ms_pc             //31:0
 };
 
-wire        ms_fwd_valid;
+wire [ 3:0] ms_fwd_valid;
 wire [ 4:0] ms_rf_dest;
 wire [31:0] ms_rf_data;
 
 assign ms_fwd_blk_bus = {
-    ms_fwd_valid,   // 37:37
+    ms_fwd_valid,   // 40:37
     ms_rf_dest,     // 36:32
     ms_rf_data      // 31:0
 };
@@ -94,7 +94,7 @@ assign ms_final_result =
     ms_res_from_mem ? mem_result        : 
     ms_exe_result;
 
-assign ms_fwd_valid = ms_valid && ms_gr_we;
+assign ms_fwd_valid = {4{ ms_valid && ms_gr_we && 1'b1 }};      // 1'b1 for data_sram_rvalid
 assign ms_rf_dest   = ms_dest;
 assign ms_rf_data   = ms_final_result;
 
