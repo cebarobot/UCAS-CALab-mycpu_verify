@@ -31,6 +31,7 @@ wire        ms_inst_lb     ;
 wire        ms_inst_lbu    ;
 wire        ms_inst_lh     ;
 wire        ms_inst_lhu    ;
+wire        ms_inst_lw     ;
 wire        ms_inst_lwl    ;
 wire        ms_inst_lwr    ;
 wire        ms_res_from_mem;
@@ -39,10 +40,11 @@ wire [ 4:0] ms_dest;
 wire [31:0] ms_exe_result;
 wire [31:0] ms_pc;
 assign {
-    ms_inst_lb      ,  //76:76
-    ms_inst_lbu     ,  //75:75
-    ms_inst_lh      ,  //74:74
-    ms_inst_lhu     ,  //73:73
+    ms_inst_lb      ,  //77:77
+    ms_inst_lbu     ,  //76:76
+    ms_inst_lh      ,  //75:75
+    ms_inst_lhu     ,  //74:74
+    ms_inst_lw      ,  //73:73
     ms_inst_lwl     ,  //72:72
     ms_inst_lwr     ,  //71:71
     ms_res_from_mem,  //70:70

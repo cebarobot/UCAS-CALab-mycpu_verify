@@ -141,7 +141,7 @@ wire        inst_bne;
 wire        inst_jal;
 wire        inst_jr;
 
-// branch & hump in lab7
+// branch & jump in lab7
 wire        inst_bgez;
 wire        inst_bgtz;
 wire        inst_blez;
@@ -186,14 +186,16 @@ wire        rs_eq_rt;
 assign br_bus       = {br_stall,br_taken,br_target};
 
 assign ds_to_es_bus = {
-    inst_lb     ,  //154:154
-    inst_lbu    ,  //153:153
-    inst_lh     ,  //152:152
-    inst_lhu    ,  //151:151
-    inst_lwl    ,  //150:150
-    inst_lwr    ,  //149:149
-    inst_sb     ,  //148:148
-    inst_sh     ,  //147:147
+    inst_lb     ,  //156:156
+    inst_lbu    ,  //155:155
+    inst_lh     ,  //154:154
+    inst_lhu    ,  //153:153
+    inst_lw     ,  //152:152
+    inst_lwl    ,  //151:151
+    inst_lwr    ,  //150:150
+    inst_sb     ,  //149:149
+    inst_sh     ,  //148:148
+    inst_sw     ,  //147:147
     inst_swl    ,  //146:146
     inst_swr    ,  //145:145
     inst_div    ,  //144:144

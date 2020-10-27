@@ -39,10 +39,12 @@ wire        es_inst_lb     ;
 wire        es_inst_lbu    ;
 wire        es_inst_lh     ;
 wire        es_inst_lhu    ;
+wire        es_inst_lw     ;
 wire        es_inst_lwl    ;
 wire        es_inst_lwr    ;
 wire        es_inst_sb     ;
 wire        es_inst_sh     ;
+wire        es_inst_sw     ;
 wire        es_inst_swl    ;
 wire        es_inst_swr    ;
 wire        es_inst_div    ;
@@ -67,16 +69,18 @@ wire [31:0] es_rs_value   ;
 wire [31:0] es_rt_value   ;
 wire [31:0] es_pc         ;
 assign {
-    es_inst_lb         ,  //154:154
-    es_inst_lbu        ,  //153:153
-    es_inst_lh         ,  //152:152
-    es_inst_lhu        ,  //151:151
-    es_inst_lwl        ,  //150:150
-    es_inst_lwr        ,  //149:149
-    es_inst_sb         ,  //148:148
-    es_inst_sh         ,  //147:147
-    es_inst_swl        ,  //146:146
-    es_inst_swr        ,  //145:145
+    es_inst_lb     ,  //156:156
+    es_inst_lbu    ,  //155:155
+    es_inst_lh     ,  //154:154
+    es_inst_lhu    ,  //153:153
+    es_inst_lw     ,  //152:152
+    es_inst_lwl    ,  //151:151
+    es_inst_lwr    ,  //150:150
+    es_inst_sb     ,  //149:149
+    es_inst_sh     ,  //148:148
+    es_inst_sw     ,  //147:147
+    es_inst_swl    ,  //146:146
+    es_inst_swr    ,  //145:145
     es_inst_div    ,  //144:144
     es_inst_divu   ,  //143:143
     es_inst_mult   ,  //142:142
@@ -118,10 +122,11 @@ assign es_exe_result =
     es_alu_result;
 
 assign es_to_ms_bus = {
-    es_inst_lb      ,  //76:76
-    es_inst_lbu     ,  //75:75
-    es_inst_lh      ,  //74:74
-    es_inst_lhu     ,  //73:73
+    es_inst_lb      ,  //77:77
+    es_inst_lbu     ,  //76:76
+    es_inst_lh      ,  //75:75
+    es_inst_lhu     ,  //74:74
+    es_inst_lw      ,  //73:73
     es_inst_lwl     ,  //72:72
     es_inst_lwr     ,  //71:71
     es_res_from_mem ,  //70:70
@@ -319,11 +324,44 @@ assign reg_HI_wdata =
 assign reg_LO_rdata = reg_LO;
 assign reg_HI_rdata = reg_HI;
 
+// MEM
+wire [ 1:0] st_addr;
+wire [31:0] st_data;
+wire [ 3:0] st_strb;
+wire [ 3:0] sw_strb;
+wire [ 3:0] sh_strb;
+wire [ 3:0] sb_strb;
+
+assign st_addr = es_alu_result[1:0];
+
+// sb, sh, sw
+assign st_data = 
+    ( {32{es_inst_sb}} & {4{ es_rt_value[ 7:0] }} )|
+    ( {32{es_inst_sh}} & {2{ es_rt_value[15:0] }} )|
+    ( {32{es_inst_sw}} & es_rt_value );
+
+assign st_strb = 
+    ( {4{es_inst_sb}} & sb_strb ) |
+    ( {4{es_inst_sh}} & sh_strb ) |
+    ( {4{es_inst_sw}} & sw_strb );
+
+assign sb_strb = 
+    ( {4{st_addr == 2'b00}} & 4'b0001 ) |
+    ( {4{st_addr == 2'b01}} & 4'b0010 ) |
+    ( {4{st_addr == 2'b10}} & 4'b0100 ) |
+    ( {4{st_addr == 2'b11}} & 4'b1000 );
+
+assign sh_strb = 
+    ( {4{st_addr == 2'b00}} & 4'b0011 ) |
+    ( {4{st_addr == 2'b10}} & 4'b1100 );
+
+assign sw_strb = 4'b1111;
+
 // SRAM
 assign data_sram_en    = 1'b1;
-assign data_sram_wen   = es_mem_we&&es_valid ? 4'hf : 4'h0;
+assign data_sram_wen   = (es_mem_we && es_valid)? st_strb : 4'h0;
 assign data_sram_addr  = es_alu_result;
-assign data_sram_wdata = es_rt_value;
+assign data_sram_wdata = st_data;
 
 // Block & Forward
 assign es_fwd_valid = {4{ es_valid && es_gr_we && !es_res_from_mem }};
