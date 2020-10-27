@@ -55,10 +55,11 @@ assign {
 } = es_to_ms_bus_r;
 
 wire [31:0] mem_result;
+wire [31:0] ms_gr_strb;
 wire [31:0] ms_final_result;
 
 assign ms_to_ws_bus = {
-    ms_gr_we       ,  //69:69
+    ms_gr_strb  ,  //72:69
     ms_dest        ,  //68:64
     ms_final_result,  //63:32
     ms_pc             //31:0
@@ -90,13 +91,17 @@ always @(posedge clk) begin
     end
 end
 
-// TODO lab7
+// Load
 wire [ 1:0] mem_addr;
 wire [31:0] mem_word;
 wire [15:0] mem_half;
 wire [ 7:0] mem_byte;
 wire [31:0] mem_half_ex;
 wire [31:0] mem_byte_ex;
+wire [31:0] mem_left;
+wire [31:0] mem_right;
+wire [ 3:0] mem_left_strb;
+wire [ 3:0] mem_right_strb;
 
 assign mem_addr = ms_exe_result[1:0];
 assign mem_word = data_sram_rdata;
@@ -108,16 +113,47 @@ assign mem_half_ex[15: 0] = mem_half;
 assign mem_byte_ex[31: 8] = {24{ ms_inst_lb & mem_byte[15] }};
 assign mem_byte_ex[ 7: 0] = mem_byte;
 
+assign mem_left = 
+    ( {32{mem_addr == 2'b00}} & {mem_word[ 7: 0], 24'b0} ) |
+    ( {32{mem_addr == 2'b01}} & {mem_word[15: 0], 16'b0} ) |
+    ( {32{mem_addr == 2'b10}} & {mem_word[23: 0],  8'b0} ) |
+    ( {32{mem_addr == 2'b11}} &  mem_word[31: 0]         );
+assign mem_left_strb =
+    ( {4{mem_addr == 2'b00}} & 4'b1000 ) |
+    ( {4{mem_addr == 2'b01}} & 4'b1100 ) |
+    ( {4{mem_addr == 2'b10}} & 4'b1110 ) |
+    ( {4{mem_addr == 2'b11}} & 4'b1111 );
+
+assign mem_right = 
+    ( {32{mem_addr == 2'b00}} &         mem_word[31: 0]  ) |
+    ( {32{mem_addr == 2'b01}} & { 8'b0, mem_word[23: 0]} ) |
+    ( {32{mem_addr == 2'b10}} & {16'b0, mem_word[15: 0]} ) |
+    ( {32{mem_addr == 2'b11}} & {24'b0, mem_word[ 7: 0]} );
+assign mem_right_strb = 
+    ( {4{mem_addr == 2'b00}} & 4'b1111 ) |
+    ( {4{mem_addr == 2'b01}} & 4'b0111 ) |
+    ( {4{mem_addr == 2'b10}} & 4'b0011 ) |
+    ( {4{mem_addr == 2'b11}} & 4'b0001 );
+
+
 assign mem_result = 
-    (ms_inst_lb || ms_inst_lbu)? mem_byte_ex :
-    (ms_inst_lh || ms_inst_lhu)? mem_half_ex :
-    mem_word;
+    ( {32{ms_inst_lb || ms_inst_lbu}} & mem_byte_ex ) |
+    ( {32{ms_inst_lh || ms_inst_lhu}} & mem_half_ex ) |
+    ( {32{ms_inst_lw               }} & mem_word    ) |
+    ( {32{ms_inst_lwl              }} & mem_left    ) |
+    ( {32{ms_inst_lwr              }} & mem_right   );
 
 assign ms_final_result = 
     ms_res_from_mem ? mem_result : 
     ms_exe_result;
 
-assign ms_fwd_valid = {4{ ms_valid && ms_gr_we && 1'b1 }};      // 1'b1 for data_sram_rvalid
+assign ms_gr_strb =
+    ms_inst_lwl? mem_left_strb :
+    ms_inst_lwr? mem_right_strb :
+    {4{ms_gr_we}};
+
+
+assign ms_fwd_valid = {4{ ms_valid }} & ms_gr_strb;
 assign ms_rf_dest   = ms_dest;
 assign ms_rf_data   = ms_final_result;
 

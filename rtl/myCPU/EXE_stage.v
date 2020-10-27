@@ -360,7 +360,7 @@ assign sw_strb = 4'b1111;
 // SRAM
 assign data_sram_en    = 1'b1;
 assign data_sram_wen   = (es_mem_we && es_valid)? st_strb : 4'h0;
-assign data_sram_addr  = es_alu_result;
+assign data_sram_addr  = {es_alu_result[31:2], 2'b0};
 assign data_sram_wdata = st_data;
 
 // Block & Forward
