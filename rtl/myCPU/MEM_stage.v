@@ -55,7 +55,7 @@ assign {
 } = es_to_ms_bus_r;
 
 wire [31:0] mem_result;
-wire [31:0] ms_gr_strb;
+wire [ 3:0] ms_gr_strb;
 wire [31:0] ms_final_result;
 
 assign ms_to_ws_bus = {
