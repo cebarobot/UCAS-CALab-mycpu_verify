@@ -326,24 +326,45 @@ assign reg_HI_rdata = reg_HI;
 
 // MEM
 wire [ 1:0] st_addr;
+
 wire [31:0] st_data;
+wire [31:0] swl_data;
+wire [31:0] swr_data;
+
 wire [ 3:0] st_strb;
 wire [ 3:0] sw_strb;
 wire [ 3:0] sh_strb;
 wire [ 3:0] sb_strb;
+wire [ 3:0] swl_strb;
+wire [ 3:0] swr_strb;
 
 assign st_addr = es_alu_result[1:0];
 
-// sb, sh, sw
 assign st_data = 
-    ( {32{es_inst_sb}} & {4{ es_rt_value[ 7:0] }} )|
-    ( {32{es_inst_sh}} & {2{ es_rt_value[15:0] }} )|
-    ( {32{es_inst_sw}} & es_rt_value );
+    ( {32{es_inst_sb }} & {4{ es_rt_value[ 7:0] }} ) |
+    ( {32{es_inst_sh }} & {2{ es_rt_value[15:0] }} ) |
+    ( {32{es_inst_sw }} & es_rt_value              ) |
+    ( {32{es_inst_swl}} & swl_data                 ) |
+    ( {32{es_inst_swr}} & swr_data                 );
+
+assign swl_data = 
+    ( {32{st_addr == 2'b00}} & {24'b0, es_rt_value[31:24]} ) |
+    ( {32{st_addr == 2'b01}} & {16'b0, es_rt_value[31:16]} ) |
+    ( {32{st_addr == 2'b10}} & { 8'b0, es_rt_value[31: 8]} ) |
+    ( {32{st_addr == 2'b11}} &         es_rt_value[31: 0]  );
+
+assign swr_data = 
+    ( {32{st_addr == 2'b00}} &  es_rt_value[31: 0]         ) |
+    ( {32{st_addr == 2'b01}} & {es_rt_value[23: 0],  8'b0} ) |
+    ( {32{st_addr == 2'b10}} & {es_rt_value[15: 0], 16'b0} ) |
+    ( {32{st_addr == 2'b11}} & {es_rt_value[ 7: 0], 24'b0} );
 
 assign st_strb = 
-    ( {4{es_inst_sb}} & sb_strb ) |
-    ( {4{es_inst_sh}} & sh_strb ) |
-    ( {4{es_inst_sw}} & sw_strb );
+    ( {4{es_inst_sb }} & sb_strb    ) |
+    ( {4{es_inst_sh }} & sh_strb    ) |
+    ( {4{es_inst_sw }} & sw_strb    ) |
+    ( {4{es_inst_swl}} & swl_strb  ) |
+    ( {4{es_inst_swr}} & swr_strb );
 
 assign sb_strb = 
     ( {4{st_addr == 2'b00}} & 4'b0001 ) |
@@ -356,6 +377,18 @@ assign sh_strb =
     ( {4{st_addr == 2'b10}} & 4'b1100 );
 
 assign sw_strb = 4'b1111;
+
+assign swl_strb = 
+    ( {4{st_addr == 2'b00}} & 4'b0001 ) |
+    ( {4{st_addr == 2'b01}} & 4'b0011 ) |
+    ( {4{st_addr == 2'b10}} & 4'b0111 ) |
+    ( {4{st_addr == 2'b11}} & 4'b1111 );
+
+assign swr_strb = 
+    ( {4{st_addr == 2'b00}} & 4'b1111 ) |
+    ( {4{st_addr == 2'b01}} & 4'b1110 ) |
+    ( {4{st_addr == 2'b10}} & 4'b1100 ) |
+    ( {4{st_addr == 2'b11}} & 4'b1000 );
 
 // SRAM
 assign data_sram_en    = 1'b1;
