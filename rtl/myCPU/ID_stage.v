@@ -183,7 +183,11 @@ wire [31:0] rf_rdata2;
 
 wire        rs_eq_rt;
 
-assign br_bus       = {br_stall,br_taken,br_target};
+assign br_bus = {
+    br_stall,
+    br_taken,
+    br_target
+};
 
 assign ds_to_es_bus = {
     inst_lb     ,  //156:156
@@ -436,19 +440,21 @@ assign judge_bgez = ~rs_value[31];                          //  >=0
 assign judge_bgtz = (rs_value != 32'b0) & (~rs_value[31]);  //  > 0
 
 assign rs_eq_rt = (rs_value == rt_value);
-assign br_taken = (   inst_beq  &&  rs_eq_rt
-                   || inst_bne  && !rs_eq_rt
-                   || inst_jal
-                   || inst_jr
-                   || inst_bgez && judge_bgez
-                   || inst_bgtz && judge_bgtz
-                   || inst_blez && (~judge_bgtz)
-                   || inst_bltz && (~judge_bgez)
-                   || inst_bgezal && judge_bgez
-                   || inst_bltzal && (~judge_bgez)
-                   || inst_j
-                   || inst_jalr
-                  ) && ds_valid;
+assign br_taken = (
+    inst_beq  &&  rs_eq_rt        ||
+    inst_bne  && !rs_eq_rt        ||
+    inst_jal                      ||
+    inst_jr                       ||
+    inst_bgez && judge_bgez       ||
+    inst_bgtz && judge_bgtz       ||
+    inst_blez && (~judge_bgtz)    ||
+    inst_bltz && (~judge_bgez)    ||
+    inst_bgezal && judge_bgez     ||
+    inst_bltzal && (~judge_bgez)  ||
+    inst_j                        ||
+    inst_jalr
+) && ds_valid;
+
 assign br_target = (inst_beq || inst_bne || inst_bgez || inst_bgtz || inst_blez || inst_bltz || inst_bgezal || inst_bltzal) ? (fs_pc + {{14{imm[15]}}, imm[15:0], 2'b0}) :
                    (inst_jr || inst_jalr)              ? rs_value :
                   /*inst_jal*/              {fs_pc[31:28], jidx[25:0], 2'b0};

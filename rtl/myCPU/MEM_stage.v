@@ -110,7 +110,7 @@ assign mem_byte = mem_addr[0]? mem_half[15: 8] : mem_half[ 7: 0];
 
 assign mem_half_ex[31:16] = {16{ ms_inst_lh & mem_half[15] }};
 assign mem_half_ex[15: 0] = mem_half;
-assign mem_byte_ex[31: 8] = {24{ ms_inst_lb & mem_byte[15] }};
+assign mem_byte_ex[31: 8] = {24{ ms_inst_lb & mem_byte[ 7] }};
 assign mem_byte_ex[ 7: 0] = mem_byte;
 
 assign mem_left = 
@@ -126,9 +126,9 @@ assign mem_left_strb =
 
 assign mem_right = 
     ( {32{mem_addr == 2'b00}} &         mem_word[31: 0]  ) |
-    ( {32{mem_addr == 2'b01}} & { 8'b0, mem_word[23: 0]} ) |
-    ( {32{mem_addr == 2'b10}} & {16'b0, mem_word[15: 0]} ) |
-    ( {32{mem_addr == 2'b11}} & {24'b0, mem_word[ 7: 0]} );
+    ( {32{mem_addr == 2'b01}} & { 8'b0, mem_word[31: 8]} ) |
+    ( {32{mem_addr == 2'b10}} & {16'b0, mem_word[31:16]} ) |
+    ( {32{mem_addr == 2'b11}} & {24'b0, mem_word[31:24]} );
 assign mem_right_strb = 
     ( {4{mem_addr == 2'b00}} & 4'b1111 ) |
     ( {4{mem_addr == 2'b01}} & 4'b0111 ) |
