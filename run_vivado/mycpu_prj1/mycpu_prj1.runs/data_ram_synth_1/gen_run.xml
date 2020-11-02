@@ -3,8 +3,6 @@
   <File Type="PA-TCL" Name="data_ram.tcl"/>
   <File Type="REPORTS-TCL" Name="data_ram_reports.tcl"/>
   <File Type="RDS-RDS" Name="data_ram.vds"/>
-  <File Type="RDS-UTIL" Name="data_ram_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="data_ram_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="data_ram.dcp"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/data_ram">
     <File Path="$PPRDIR/../../rtl/xilinx_ip/data_ram/data_ram.xci">

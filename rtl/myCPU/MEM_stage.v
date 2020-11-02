@@ -16,7 +16,16 @@ module mem_stage(
     input  [31                 :0] data_sram_rdata,
 
     // forword from es
-    output [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus    
+    output [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus,
+
+    //block
+    output                          ms_inst_mfc0_o ,
+
+
+    //exception
+    input                           ws_ex        ,
+    input                           eret_flush   ,
+    output                          ms_ex_o    
 );
 
 reg         ms_valid;
@@ -36,10 +45,23 @@ wire        ms_inst_lwl    ;
 wire        ms_inst_lwr    ;
 wire        ms_res_from_mem;
 wire        ms_gr_we;
-wire [ 4:0] ms_dest;
+//wire [ 4:0] ms_dest;
 wire [31:0] ms_exe_result;
 wire [31:0] ms_pc;
+
+wire    ms_bd;
+wire    ms_inst_eret;
+wire    ms_inst_syscall;  
+//wire    ms_inst_mfc0;
+wire    ms_inst_mtc0;
+
 assign {
+    ms_ex           ,  //83:83
+    ms_bd           ,  //82:82
+    ms_inst_eret    ,  //81:81
+    ms_inst_syscall ,  //80:80
+    ms_inst_mfc0    ,  //79:79
+    ms_inst_mtc0    ,  //78:78
     ms_inst_lb      ,  //77:77
     ms_inst_lbu     ,  //76:76
     ms_inst_lh      ,  //75:75
@@ -59,6 +81,12 @@ wire [ 3:0] ms_gr_strb;
 wire [31:0] ms_final_result;
 
 assign ms_to_ws_bus = {
+    ms_ex           ,  //78:78
+    ms_bd           ,  //77:77
+    ms_inst_eret    ,  //76:76
+    ms_inst_syscall ,  //75:75
+    ms_inst_mfc0    ,  //74:74
+    ms_inst_mtc0    ,  //73:73
     ms_gr_strb  ,  //72:69
     ms_dest        ,  //68:64
     ms_final_result,  //63:32
@@ -77,7 +105,7 @@ assign ms_fwd_blk_bus = {
 
 assign ms_ready_go    = 1'b1;
 assign ms_allowin     = !ms_valid || ms_ready_go && ws_allowin;
-assign ms_to_ws_valid = ms_valid && ms_ready_go;
+assign ms_to_ws_valid = ms_valid && ms_ready_go && !eret_flush && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         ms_valid <= 1'b0;
@@ -90,6 +118,9 @@ always @(posedge clk) begin
         es_to_ms_bus_r <= es_to_ms_bus;
     end
 end
+
+assign ms_ex_o = ms_valid && ms_ex;
+assign ms_inst_mfc0_o = ms_valid && ms_inst_mfc0;
 
 // Load
 wire [ 1:0] mem_addr;

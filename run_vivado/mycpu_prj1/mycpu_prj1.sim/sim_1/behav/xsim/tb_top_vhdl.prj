@@ -1,6 +1,6 @@
 # compile vhdl design source files
 vhdl xpm  \
-"C:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_VCOMP.vhd" \
+"D:/vivado/Vivado/2019.2/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vhdl xbip_utils_v3_0_10  \
 "../../../../mycpu_prj1.ip_user_files/ipstatic/hdl/xbip_utils_v3_0_vh_rfs.vhd" \

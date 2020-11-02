@@ -3,8 +3,6 @@
   <File Type="PA-TCL" Name="clk_pll.tcl"/>
   <File Type="REPORTS-TCL" Name="clk_pll_reports.tcl"/>
   <File Type="RDS-RDS" Name="clk_pll.vds"/>
-  <File Type="RDS-UTIL" Name="clk_pll_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="clk_pll_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="clk_pll.dcp"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/clk_pll">
     <File Path="$PPRDIR/../../rtl/xilinx_ip/clk_pll/clk_pll.xci">

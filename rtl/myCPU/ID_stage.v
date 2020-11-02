@@ -20,7 +20,17 @@ module id_stage(
     // forword & block from es
     input  [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus,
     // forword & block from ms
-    input  [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus
+    input  [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus, 
+
+    //block
+    input                           es_inst_mfc0  ,
+    input                           ms_inst_mfc0  ,
+    input                           ws_inst_mfc0  ,
+    input [4:0]                     ws_rf_dest    ,
+
+    //exception
+    input                           eret_flush    ,
+    input                           ws_ex
 );
 
 reg         ds_valid   ;
@@ -183,6 +193,10 @@ wire [31:0] rf_rdata2;
 
 wire        rs_eq_rt;
 
+wire ds_ex;
+wire ds_bd;
+
+
 assign br_bus = {
     br_stall,
     br_taken,
@@ -190,6 +204,12 @@ assign br_bus = {
 };
 
 assign ds_to_es_bus = {
+    ds_ex       ,  //162:162
+    ds_bd       ,  //161:161
+    inst_eret   ,  //160:160
+    inst_syscall,  //159:159
+    inst_mfc0   ,  //158:158
+    inst_mtc0   ,  //157:157
     inst_lb     ,  //156:156
     inst_lbu    ,  //155:155
     inst_lh     ,  //154:154
@@ -226,12 +246,19 @@ assign ds_to_es_bus = {
     ds_pc          //31 :0
 };
 
+assign ds_ex = (inst_syscall)? 1 : 0;
+
+wire    mfc0_block;
+assign mfc0_block = (es_inst_mfc0 && (es_rf_dest == rs || es_rf_dest == rt)) ||
+                    (ms_inst_mfc0 && (ms_rf_dest == rs || ms_rf_dest == rt)) ||
+                    (ws_inst_mfc0 && (ws_rf_dest == rs || ws_rf_dest == rt));
+
 assign ds_ready_go    = !(
-    es_blk_valid  && (es_rf_dest == rs || es_rf_dest == rt)
+   mfc0_block || (es_blk_valid  && (es_rf_dest == rs || es_rf_dest == rt))
 );
 
 assign ds_allowin     = !ds_valid || ds_ready_go && es_allowin;
-assign ds_to_es_valid = ds_valid && ds_ready_go;
+assign ds_to_es_valid = ds_valid && ds_ready_go && !eret_flush && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         ds_valid <= 1'b0;
@@ -332,6 +359,17 @@ assign inst_sh      = op_d[6'h29];
 assign inst_swl     = op_d[6'h2a];
 assign inst_swr     = op_d[6'h2e];
 
+//new inst in lab8
+assign inst_syscall = op_d[6'h00] & func_d[6'h0c];
+assign inst_eret    = op_d[6'h10] & rs_d[5'h10] & func_d[6'h18] & rd_d[5'h00] & rt_d[5'h00] & sa_d[5'h00];
+assign inst_mfc0    = op_d[6'h10] & rs_d[5'h00] & sa_d[5'h00] ;
+assign inst_mtc0    = op_d[6'h10] & rs_d[5'h04] & sa_d[5'h00] ;
+
+wire [7:0] cp0_addr;
+assign cp0_addr = {ds_inst[15:11], ds_inst[2:0]};
+
+
+
 assign alu_op[ 0] = inst_add | inst_addi | inst_addu | inst_addiu | inst_lw | inst_sw | inst_jal | inst_bltzal |
                     inst_bgezal | inst_jalr | inst_lb | inst_lbu |inst_lh | inst_lhu | inst_lwl | inst_lwr | inst_sb |
                     inst_sh | inst_swl | inst_swr;
@@ -363,11 +401,12 @@ assign res_from_mem = inst_lw | inst_lh | inst_lhu | inst_lb | inst_lbu | inst_l
 
 assign dst_is_r31   = inst_jal | inst_bgezal | inst_bltzal;
 assign dst_is_rt    = inst_addi | inst_addiu | inst_slti | inst_sltiu | inst_lui | inst_andi | inst_ori | 
-                      inst_xori | inst_lw | inst_lh | inst_lhu | inst_lb | inst_lbu | inst_lwl | inst_lwr;
+                      inst_xori | inst_lw | inst_lh | inst_lhu | inst_lb | inst_lbu | inst_lwl | inst_lwr | inst_mfc0;
 
 assign gr_we        = ~inst_sw & ~inst_beq & ~inst_bne & ~inst_jr & 
                       ~inst_mtlo & ~inst_mthi & ~inst_div & ~inst_divu & ~inst_mult & ~inst_multu &
-                      ~inst_bgez & ~inst_bgtz & ~inst_blez & ~inst_bltz & ~inst_j & ~inst_sb & ~inst_sh & ~inst_swl & ~inst_swr;
+                      ~inst_bgez & ~inst_bgtz & ~inst_blez & ~inst_bltz & ~inst_j & ~inst_sb & ~inst_sh & ~inst_swl & ~inst_swr &
+                      ~inst_mtc0 & ~inst_syscall & ~inst_eret;
 assign mem_we       = inst_sw | inst_sh | inst_sb | inst_swl | inst_swr;
 
 assign dest         = dst_is_r31 ? 5'd31 :
@@ -454,6 +493,8 @@ assign br_taken = (
     inst_j                        ||
     inst_jalr
 ) && ds_valid;
+
+assign ds_bd = br_taken;
 
 assign br_target = (inst_beq || inst_bne || inst_bgez || inst_bgtz || inst_blez || inst_bltz || inst_bgezal || inst_bltzal) ? (fs_pc + {{14{imm[15]}}, imm[15:0], 2'b0}) :
                    (inst_jr || inst_jalr)              ? rs_value :

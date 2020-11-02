@@ -18,8 +18,16 @@ module exe_stage(
     output [31:0] data_sram_addr ,
     output [31:0] data_sram_wdata,
 
+    //block
+    output                          es_inst_mfc0_o ,
+
     // forword & block from es
-    output [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus    
+    output [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus,    
+
+    //exception
+    input                           ws_ex        ,
+    input                           ms_ex        ,
+    input                           eret_flush   
 );
 
 reg         es_valid      ;
@@ -63,12 +71,28 @@ wire        es_src2_is_imm;
 wire        es_src2_is_8  ;
 wire        es_gr_we      ;
 wire        es_mem_we     ;
-wire [ 4:0] es_dest       ;
+//wire [ 4:0] es_dest       ;
 wire [15:0] es_imm        ;
 wire [31:0] es_rs_value   ;
 wire [31:0] es_rt_value   ;
 wire [31:0] es_pc         ;
+
+wire    es_ex;
+wire    es_bd;
+wire    es_inst_eret;
+wire    es_inst_syscall;  
+//wire    es_inst_mfc0;
+wire    es_inst_mtc0;
+wire    no_store;  
+assign no_store = ms_ex | ws_ex;
+
 assign {
+    es_ex          ,  //162:162
+    es_bd          ,  //161:161
+    es_inst_eret   ,  //160:160
+    es_inst_syscall,  //159:159
+    es_inst_mfc0   ,  //158:158
+    es_inst_mtc0   ,  //157:157
     es_inst_lb     ,  //156:156
     es_inst_lbu    ,  //155:155
     es_inst_lh     ,  //154:154
@@ -119,9 +143,16 @@ assign es_res_from_HI   = es_inst_mfhi;
 assign es_exe_result = 
     es_res_from_LO  ? reg_LO_rdata  :
     es_res_from_HI  ? reg_HI_rdata  :
+    es_inst_mtc0    ? es_rt_value   :
     es_alu_result;
 
 assign es_to_ms_bus = {
+    es_ex           ,  //83:83
+    es_bd           ,  //82:82
+    es_inst_eret    ,  //81:81
+    es_inst_syscall ,  //80:80
+    es_inst_mfc0    ,  //79:79
+    es_inst_mtc0    ,  //78:78
     es_inst_lb      ,  //77:77
     es_inst_lbu     ,  //76:76
     es_inst_lh      ,  //75:75
@@ -290,10 +321,10 @@ end
 
 // LO & HI
 always @ (posedge clk) begin
-    if (reg_LO_we) begin
+    if (reg_LO_we && !no_store) begin
         reg_LO <= reg_LO_wdata;
     end
-    if (reg_HI_we) begin
+    if (reg_HI_we&& !no_store) begin
         reg_HI <= reg_HI_wdata;
     end
 end
@@ -392,7 +423,7 @@ assign swr_strb =
 
 // SRAM
 assign data_sram_en    = 1'b1;
-assign data_sram_wen   = (es_mem_we && es_valid)? st_strb : 4'h0;
+assign data_sram_wen   = (es_mem_we && !no_store && es_valid)? st_strb : 4'h0;
 assign data_sram_addr  = {es_alu_result[31:2], 2'b0};
 assign data_sram_wdata = st_data;
 
@@ -401,15 +432,15 @@ assign es_fwd_valid = {4{ es_valid && es_gr_we && !es_res_from_mem }};
 assign es_rf_dest   = es_dest;
 assign es_rf_data   = es_exe_result;
 
-assign es_blk_valid = es_valid && es_res_from_mem;
+assign es_blk_valid = es_valid && es_res_from_mem && !eret_flush && !ws_ex;
 
 // Pipeline
 assign es_ready_go    = 
-    es_inst_div     ? signed_dout_tvalid || signed_divider_done :
-    es_inst_divu    ? unsigned_dout_tvalid || unsigned_divider_done :
+    es_inst_div  && !eret_flush && !ws_ex    ? signed_dout_tvalid || signed_divider_done :
+    es_inst_divu && !eret_flush && !ws_ex   ? unsigned_dout_tvalid || unsigned_divider_done :
     1'b1;
 assign es_allowin     = !es_valid || es_ready_go && ms_allowin;
-assign es_to_ms_valid =  es_valid && es_ready_go;
+assign es_to_ms_valid =  es_valid && es_ready_go && !eret_flush && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         es_valid <= 1'b0;
@@ -422,5 +453,7 @@ always @(posedge clk) begin
         ds_to_es_bus_r <= ds_to_es_bus;
     end
 end
+
+assign es_inst_mfc0_o = es_valid && es_inst_mfc0;
 
 endmodule
