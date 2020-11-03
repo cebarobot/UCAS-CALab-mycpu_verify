@@ -40,6 +40,7 @@ wire    ws_inst_syscall;
 wire    ws_inst_mtc0;
 
 assign {
+    cp0_addr     ,  //86:79
     ws_ex           ,  //78:78
     ws_bd           ,  //77:77
     ws_inst_eret    ,  //76:76

@@ -196,6 +196,7 @@ wire        rs_eq_rt;
 wire ds_ex;
 wire ds_bd;
 
+wire [7:0] cp0_addr;
 
 assign br_bus = {
     br_stall,
@@ -204,6 +205,7 @@ assign br_bus = {
 };
 
 assign ds_to_es_bus = {
+    cp0_addr    ,  //170:163
     ds_ex       ,  //162:162
     ds_bd       ,  //161:161
     inst_eret   ,  //160:160
@@ -365,7 +367,6 @@ assign inst_eret    = op_d[6'h10] & rs_d[5'h10] & func_d[6'h18] & rd_d[5'h00] & 
 assign inst_mfc0    = op_d[6'h10] & rs_d[5'h00] & sa_d[5'h00] ;
 assign inst_mtc0    = op_d[6'h10] & rs_d[5'h04] & sa_d[5'h00] ;
 
-wire [7:0] cp0_addr;
 assign cp0_addr = {ds_inst[15:11], ds_inst[2:0]};
 
 

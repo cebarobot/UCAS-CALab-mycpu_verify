@@ -48,6 +48,7 @@ wire        ms_gr_we;
 wire [ 4:0] ms_dest;
 wire [31:0] ms_exe_result;
 wire [31:0] ms_pc;
+wire [7:0]  ms_cp0_addr;
 
 wire    ms_bd;
 wire    ms_inst_eret;
@@ -56,6 +57,7 @@ wire    ms_inst_syscall;
 wire    ms_inst_mtc0;
 
 assign {
+    ms_cp0_addr     ,  //91:84
     ms_ex           ,  //83:83
     ms_bd           ,  //82:82
     ms_inst_eret    ,  //81:81
@@ -81,6 +83,7 @@ wire [ 3:0] ms_gr_strb;
 wire [31:0] ms_final_result;
 
 assign ms_to_ws_bus = {
+    ms_cp0_addr     ,  //86:79
     ms_ex           ,  //78:78
     ms_bd           ,  //77:77
     ms_inst_eret    ,  //76:76

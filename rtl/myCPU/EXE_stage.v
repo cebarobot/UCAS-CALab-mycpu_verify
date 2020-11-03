@@ -41,6 +41,7 @@ wire [31:0] reg_LO_wdata;
 wire [31:0] reg_HI_wdata;
 wire [31:0] reg_LO_rdata;
 wire [31:0] reg_HI_rdata;
+wire [7:0]  es_cp0_addr;
 
 reg  [`DS_TO_ES_BUS_WD -1:0] ds_to_es_bus_r;
 wire        es_inst_lb     ;
@@ -87,6 +88,7 @@ wire    no_store;
 assign no_store = ms_ex | ws_ex;
 
 assign {
+    es_cp0_addr    ,  //170:163
     es_ex          ,  //162:162
     es_bd          ,  //161:161
     es_inst_eret   ,  //160:160
@@ -147,6 +149,7 @@ assign es_exe_result =
     es_alu_result;
 
 assign es_to_ms_bus = {
+    es_cp0_addr     ,  //91:84
     es_ex           ,  //83:83
     es_bd           ,  //82:82
     es_inst_eret    ,  //81:81
