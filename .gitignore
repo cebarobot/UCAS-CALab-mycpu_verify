@@ -86,3 +86,6 @@
 !*.elf
 !*.bmm
 !*.xmp
+run_vivado/mycpu_prj1/mycpu_prj1.runs/.jobs/
+run_vivado/mycpu_prj1/mycpu_prj1.cache/
+*.backup.jou

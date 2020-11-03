@@ -17,9 +17,7 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param chipscope.maxJobs 2
-set_param xicom.use_bs_reader 1
-set_msg_config -id {Common 17-41} -limit 10000000
+set_msg_config  -id {Project 1-19}  -suppress 
 create_project -in_memory -part xc7a200tfbg676-2
 
 set_param project.singleFileAddWarning.threshold 0
@@ -36,7 +34,8 @@ set_property ip_cache_permissions {read write} [current_project]
 add_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/soft/func_lab3/obj/inst_ram.coe
 add_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/soft/func_lab4/obj/inst_ram.coe
 add_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/soft/func_lab6/obj/inst_ram.coe
-add_files c:/Users/ceba_/Documents/working/verilog/CPU_CDE/soft/func_lab7/obj/inst_ram.coe
+add_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/soft/func_lab7/obj/inst_ram.coe
+add_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/soft/func_lab8/obj/inst_ram.coe
 read_verilog C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/myCPU/mycpu.h
 set_property file_type "Verilog Header" [get_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/myCPU/mycpu.h]
 read_verilog -library xil_defaultlib {
@@ -48,11 +47,15 @@ read_verilog -library xil_defaultlib {
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/myCPU/alu.v
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/BRIDGE/bridge_1x2.v
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/CONFREG/confreg.v
+  C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.srcs/sources_1/imports/myCPU/cp0.v
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/myCPU/mycpu_top.v
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/myCPU/regfile.v
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/myCPU/tools.v
   C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/soc_lite_top.v
 }
+read_ip -quiet C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci
+set_property used_in_implementation false [get_files -all c:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram_ooc.xdc]
+
 read_ip -quiet C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.srcs/sources_1/ip/signed_divider/signed_divider.xci
 set_property used_in_implementation false [get_files -all c:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.srcs/sources_1/ip/signed_divider/signed_divider_ooc.xdc]
 
@@ -66,9 +69,6 @@ set_property used_in_implementation false [get_files -all c:/Users/ceba_/Documen
 
 read_ip -quiet C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/data_ram/data_ram.xci
 set_property used_in_implementation false [get_files -all c:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/data_ram/data_ram_ooc.xdc]
-
-read_ip -quiet C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci
-set_property used_in_implementation false [get_files -all c:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram_ooc.xdc]
 
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the

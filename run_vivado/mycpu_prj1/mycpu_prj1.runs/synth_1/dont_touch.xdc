@@ -3,6 +3,9 @@
 
 # XDC: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/soc_lite.xdc
 
+# IP: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci
+set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==inst_ram || ORIG_REF_NAME==inst_ram} -quiet] -quiet
+
 # IP: ip/signed_divider/signed_divider.xci
 set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==signed_divider || ORIG_REF_NAME==signed_divider} -quiet] -quiet
 

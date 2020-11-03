@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date             : Tue Oct 27 19:00:20 2020
+| Date             : Tue Nov  3 15:27:28 2020
 | Host             : CEBA-X1C running 64-bit major release  (build 9200)
 | Command          : report_power -file soc_lite_top_power_routed.rpt -pb soc_lite_top_power_summary_routed.pb -rpx soc_lite_top_power_routed.rpx
 | Design           : soc_lite_top
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.331        |
+| Total On-Chip Power (W)  | 0.329        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.177        |
+| Dynamic (W)              | 0.175        |
 | Device Static (W)        | 0.154        |
 | Effective TJA (C/W)      | 1.9          |
 | Max Ambient (C)          | 84.4         |
@@ -53,21 +53,21 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |     0.013 |        6 |       --- |             --- |
-| Slice Logic              |     0.012 |     7973 |       --- |             --- |
-|   LUT as Logic           |     0.011 |     3087 |    133800 |            2.31 |
-|   CARRY4                 |    <0.001 |      204 |     33450 |            0.61 |
+| Slice Logic              |     0.012 |     8470 |       --- |             --- |
+|   LUT as Logic           |     0.010 |     3350 |    133800 |            2.50 |
+|   CARRY4                 |    <0.001 |      223 |     33450 |            0.67 |
+|   Register               |    <0.001 |     2838 |    267600 |            1.06 |
 |   LUT as Distributed RAM |    <0.001 |       64 |     46200 |            0.14 |
-|   Register               |    <0.001 |     2630 |    267600 |            0.98 |
 |   F7/F8 Muxes            |    <0.001 |      492 |    133800 |            0.37 |
 |   LUT as Shift Register  |    <0.001 |        6 |     46200 |            0.01 |
-|   Others                 |     0.000 |     1021 |       --- |             --- |
-| Signals                  |     0.037 |     7987 |       --- |             --- |
+|   Others                 |     0.000 |     1023 |       --- |             --- |
+| Signals                  |     0.036 |     8364 |       --- |             --- |
 | Block RAM                |     0.007 |      320 |       365 |           87.67 |
 | PLL                      |     0.100 |        1 |        10 |           10.00 |
 | DSPs                     |     0.003 |        7 |       740 |            0.95 |
-| I/O                      |     0.004 |       55 |       400 |           13.75 |
+| I/O                      |     0.005 |       55 |       400 |           13.75 |
 | Static Power             |     0.154 |          |           |                 |
-| Total                    |     0.331 |          |           |                 |
+| Total                    |     0.329 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -77,7 +77,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.118 |       0.080 |      0.038 |
+| Vccint    |       1.000 |     0.116 |       0.078 |      0.038 |
 | Vccaux    |       1.800 |     0.082 |       0.051 |      0.031 |
 | Vcco33    |       3.300 |     0.006 |       0.001 |      0.005 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -149,21 +149,23 @@ Table of Contents
 +--------------------------+-----------+
 | Name                     | Power (W) |
 +--------------------------+-----------+
-| soc_lite_top             |     0.177 |
+| soc_lite_top             |     0.175 |
 |   confreg                |     0.005 |
 |   cpu                    |     0.050 |
-|     exe_stage            |     0.027 |
+|     exe_stage            |     0.028 |
 |       u_signed_divider   |     0.006 |
 |       u_unsigned_divider |     0.005 |
-|     id_stage             |     0.020 |
+|     id_stage             |     0.004 |
 |       u_regfile          |     0.001 |
 |     mem_stage            |     0.002 |
+|     wb_stage             |     0.017 |
+|       u_cp0              |     0.016 |
 |   data_ram               |     0.005 |
 |     U0                   |     0.005 |
 |       inst_blk_mem_gen   |     0.005 |
-|   inst_ram               |     0.011 |
-|     U0                   |     0.011 |
-|       inst_blk_mem_gen   |     0.011 |
+|   inst_ram               |     0.009 |
+|     U0                   |     0.009 |
+|       inst_blk_mem_gen   |     0.009 |
 |   pll.clk_pll            |     0.101 |
 |     inst                 |     0.101 |
 +--------------------------+-----------+
