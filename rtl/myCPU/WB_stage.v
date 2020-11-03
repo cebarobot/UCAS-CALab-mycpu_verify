@@ -30,7 +30,7 @@ wire        ws_ready_go;
 
 reg [`MS_TO_WS_BUS_WD -1:0] ms_to_ws_bus_r;
 wire [ 3:0] ws_gr_strb;
-//wire [ 4:0] ws_dest;
+wire [ 4:0] ws_dest;
 wire [31:0] ws_final_result;
 wire [31:0] ws_pc;
 

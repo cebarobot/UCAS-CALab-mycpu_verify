@@ -45,7 +45,7 @@ wire        ms_inst_lwl    ;
 wire        ms_inst_lwr    ;
 wire        ms_res_from_mem;
 wire        ms_gr_we;
-//wire [ 4:0] ms_dest;
+wire [ 4:0] ms_dest;
 wire [31:0] ms_exe_result;
 wire [31:0] ms_pc;
 
