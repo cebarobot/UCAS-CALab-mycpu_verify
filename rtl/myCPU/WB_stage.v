@@ -118,14 +118,10 @@ assign rf_wdata = ws_inst_mfc0 ? cp0_rdata :
 assign debug_wb_pc       = ws_pc;
 assign debug_wb_rf_wen   = rf_we;
 assign debug_wb_rf_wnum  = ws_dest;
-assign debug_wb_rf_wdata = ws_final_result;
-
-
+assign debug_wb_rf_wdata = rf_wdata;
 
 assign cp0_we = ws_inst_mtc0 && ws_valid && !ws_ex;
 assign cp0_wdata = ws_final_result;
-
-
 
 cp0 u_cp0(
     .clk                (clk),
