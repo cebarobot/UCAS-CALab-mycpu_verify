@@ -50,6 +50,16 @@ wire [31:0] ms_exe_result;
 wire [31:0] ms_pc;
 wire [7:0]  ms_cp0_addr;
 
+
+wire [4:0] ms_excode;
+wire [31:0] ms_badvaddr;
+
+wire [4:0] es_to_ms_excode;
+wire [31:0] es_to_ms_badvaddr;
+
+assign ms_excode = es_to_ms_excode;
+assign ms_badvaddr = es_to_ms_badvaddr;
+
 wire    ms_bd;
 wire    ms_inst_eret;
 wire    ms_inst_syscall;  
@@ -57,6 +67,8 @@ wire    ms_inst_syscall;
 wire    ms_inst_mtc0;
 
 assign {
+    es_to_ms_excode ,  //128:124
+    es_to_ms_badvaddr, //123:92
     ms_cp0_addr     ,  //91:84
     ms_ex           ,  //83:83
     ms_bd           ,  //82:82
@@ -83,6 +95,8 @@ wire [ 3:0] ms_gr_strb;
 wire [31:0] ms_final_result;
 
 assign ms_to_ws_bus = {
+    ms_excode       ,  //123:119
+    ms_badvaddr     ,  //118:87  
     ms_cp0_addr     ,  //86:79
     ms_ex           ,  //78:78
     ms_bd           ,  //77:77

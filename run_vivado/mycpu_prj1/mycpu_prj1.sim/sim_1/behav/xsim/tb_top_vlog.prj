@@ -1,7 +1,7 @@
 # compile verilog/system verilog design source files
 sv xpm  --include "../../../../../../rtl/myCPU" --include "../../../../mycpu_prj1.ip_user_files/ipstatic" \
-"C:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
-"C:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
+"D:/vivado/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
+"D:/vivado/Vivado/2019.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
 
 verilog xil_defaultlib  --include "../../../../../../rtl/myCPU" --include "../../../../mycpu_prj1.ip_user_files/ipstatic" \
 "../../../../../../rtl/xilinx_ip/clk_pll/clk_pll_clk_wiz.v" \

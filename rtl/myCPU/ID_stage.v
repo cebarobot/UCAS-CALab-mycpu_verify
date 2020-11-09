@@ -30,7 +30,10 @@ module id_stage(
 
     //exception
     input                           eret_flush    ,
-    input                           ws_ex
+    input                           ws_ex         ,
+
+    input  [31:0]                   cp0_status    ,
+    input  [31:0]                   cp0_cause     
 );
 
 reg         ds_valid   ;
@@ -40,9 +43,13 @@ wire [31                 :0] fs_pc;
 reg  [`FS_TO_DS_BUS_WD -1:0] fs_to_ds_bus_r;
 assign fs_pc = fs_to_ds_bus[31:0];
 
+wire [31:0] fs_to_ds_badvaddr;
 wire [31:0] ds_inst;
 wire [31:0] ds_pc  ;
 assign {
+    fs_to_ds_ex,
+    fs_to_ds_bd,
+    fs_to_ds_badvaddr,
     ds_inst,
     ds_pc
 } = fs_to_ds_bus_r;
@@ -195,6 +202,9 @@ wire        rs_eq_rt;
 
 wire ds_ex;
 wire ds_bd;
+wire [31:0] ds_badvaddr;
+wire [4:0] ds_excode;
+wire overflow_inst;
 
 wire [7:0] cp0_addr;
 
@@ -205,6 +215,10 @@ assign br_bus = {
 };
 
 assign ds_to_es_bus = {
+    fs_to_ds_ex ,  //209:209
+    overflow_inst, //208:208
+    ds_excode   ,  //207:203
+    ds_badvaddr ,  //202:171
     cp0_addr    ,  //170:163
     ds_ex       ,  //162:162
     ds_bd       ,  //161:161
@@ -248,7 +262,7 @@ assign ds_to_es_bus = {
     ds_pc          //31 :0
 };
 
-assign ds_ex = (inst_syscall)? 1 : 0;
+//assign ds_ex = (inst_syscall)? 1 : 0;
 
 wire    mfc0_block;
 assign mfc0_block = (es_inst_mfc0 && (es_rf_dest == rs || es_rf_dest == rt)) ||
@@ -364,8 +378,11 @@ assign inst_swr     = op_d[6'h2e];
 //new inst in lab8
 assign inst_syscall = op_d[6'h00] & func_d[6'h0c];
 assign inst_eret    = op_d[6'h10] & rs_d[5'h10] & func_d[6'h18] & rd_d[5'h00] & rt_d[5'h00] & sa_d[5'h00];
-assign inst_mfc0    = op_d[6'h10] & rs_d[5'h00] & sa_d[5'h00] ;
-assign inst_mtc0    = op_d[6'h10] & rs_d[5'h04] & sa_d[5'h00] ;
+assign inst_mfc0    = op_d[6'h10] & rs_d[5'h00] & sa_d[5'h00] & (ds_inst[5:3] == 3'b0);
+assign inst_mtc0    = op_d[6'h10] & rs_d[5'h04] & sa_d[5'h00] & (ds_inst[5:3] == 3'b0);
+
+//new inst in lab9
+assign inst_break   = op_d[6'h00] & func_d[6'h0d];
 
 assign cp0_addr = {ds_inst[15:11], ds_inst[2:0]};
 
@@ -407,12 +424,13 @@ assign dst_is_rt    = inst_addi | inst_addiu | inst_slti | inst_sltiu | inst_lui
 assign gr_we        = ~inst_sw & ~inst_beq & ~inst_bne & ~inst_jr & 
                       ~inst_mtlo & ~inst_mthi & ~inst_div & ~inst_divu & ~inst_mult & ~inst_multu &
                       ~inst_bgez & ~inst_bgtz & ~inst_blez & ~inst_bltz & ~inst_j & ~inst_sb & ~inst_sh & ~inst_swl & ~inst_swr &
-                      ~inst_mtc0 & ~inst_syscall & ~inst_eret;
+                      ~inst_mtc0 & ~inst_syscall & ~inst_eret & ~inst_break;
 assign mem_we       = inst_sw | inst_sh | inst_sb | inst_swl | inst_swr;
 
 assign dest         = dst_is_r31 ? 5'd31 :
                       dst_is_rt  ? rt    : 
                                    rd;
+assign overflow_inst = inst_add || inst_sub || inst_addi;
 
 assign rf_raddr1 = rs;
 assign rf_raddr2 = rt;
@@ -471,7 +489,7 @@ assign rt_value[31:24] =
     rf_rdata2  [31:24];
 
 // TODO:
-assign br_stall = 1'b0;
+assign br_stall = (inst_beq || inst_bne || inst_jal || inst_jr || inst_bgez || inst_bgtz || inst_blez || inst_bltz || inst_bgezal || inst_bltzal || inst_j || inst_jalr) && ds_valid;
 
 wire judge_bgez;
 wire judge_bgtz;
@@ -495,10 +513,36 @@ assign br_taken = (
     inst_jalr
 ) && ds_valid;
 
-assign ds_bd = br_taken;
+//assign ds_bd = br_taken;
 
 assign br_target = (inst_beq || inst_bne || inst_bgez || inst_bgtz || inst_blez || inst_bltz || inst_bgezal || inst_bltzal) ? (fs_pc + {{14{imm[15]}}, imm[15:0], 2'b0}) :
                    (inst_jr || inst_jalr)              ? rs_value :
                   /*inst_jal*/              {fs_pc[31:28], jidx[25:0], 2'b0};
+
+
+//lab9
+wire other_inst;
+assign other_inst = !(inst_addu | inst_subu | inst_slt | inst_sltu | inst_and | inst_or | inst_xor | inst_nor
+| inst_sll | inst_srl | inst_sra | inst_addiu | inst_lui | inst_lw | inst_sw | inst_beq | inst_bne | inst_jal
+| inst_jr | inst_add | inst_addi | inst_sub | inst_slti | inst_sltiu | inst_andi | inst_ori | inst_xori | inst_sllv
+| inst_srlv | inst_srav | inst_mult | inst_multu | inst_div | inst_divu | inst_mfhi | inst_mflo | inst_mthi | inst_mtlo
+| inst_bgez | inst_bgtz | inst_blez | inst_bltz | inst_j | inst_bltzal | inst_bgezal | inst_jalr | inst_lb | inst_lbu
+| inst_lh | inst_lhu | inst_lwl | inst_lwr | inst_sb | inst_sh | inst_swl | inst_swr | inst_syscall | inst_eret | inst_mfc0
+| inst_mtc0 | inst_break);
+
+wire interrupt;
+
+assign interrupt = ((cp0_cause[15:8] & cp0_status[15:8]) != 8'b0) && (cp0_status[1:0] == 2'b01);
+
+
+assign ds_ex = (fs_to_ds_ex | inst_syscall | inst_break | other_inst | interrupt) & ds_valid;
+
+assign ds_badvaddr = fs_to_ds_badvaddr;
+
+assign ds_excode = (interrupt) ? `EX_INT :
+                   (fs_to_ds_ex) ? `EX_ADEL :
+                   (other_inst) ? `EX_RI :
+                   (inst_syscall) ? `EX_SYS :
+                   (inst_break) ? `EX_BP : `EX_NO;
 
 endmodule

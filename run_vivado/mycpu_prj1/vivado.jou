@@ -2,61 +2,36 @@
 # Vivado v2019.2 (64-bit)
 # SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
 # IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
-# Start of session at: Tue Nov  3 09:02:48 2020
-# Process ID: 12340
-# Current directory: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent16720 C:\Users\ceba_\Documents\working\verilog\CPU_CDE\mycpu_verify\run_vivado\mycpu_prj1\mycpu_prj1.xpr
-# Log file: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/vivado.log
-# Journal file: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1\vivado.jou
+# Start of session at: Mon Nov  9 22:21:15 2020
+# Process ID: 30216
+# Current directory: D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent33064 D:\vivado_prj\CPU_CDE\mycpu_verify\run_vivado\mycpu_prj1\mycpu_prj1.xpr
+# Log file: D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/vivado.log
+# Journal file: D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1\vivado.jou
 #-----------------------------------------------------------
 start_gui
-open_project C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.xpr
+open_project D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.xpr
 update_compile_order -fileset sources_1
-set_property -dict [list CONFIG.Coe_File {../../../../soft/func_lab8/obj/inst_ram.coe}] [get_ips inst_ram]
-set_property generate_synth_checkpoint true [get_files  C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci]
-generate_target all [get_files  C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci]
+set_property -dict [list CONFIG.Coe_File {D:/vivado_prj/CPU_CDE/soft/func_lab9/obj/inst_ram.coe}] [get_ips inst_ram]
+generate_target all [get_files  D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci]
 catch { config_ip_cache -export [get_ips -all inst_ram] }
-export_ip_user_files -of_objects [get_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci] -no_script -sync -force -quiet
-create_ip_run [get_files -of_objects [get_fileset sources_1] C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci]
+export_ip_user_files -of_objects [get_files D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci] -no_script -sync -force -quiet
+create_ip_run [get_files -of_objects [get_fileset sources_1] D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci]
 launch_runs -jobs 6 inst_ram_synth_1
-export_simulation -of_objects [get_files C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci] -directory C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/sim_scripts -ip_user_files_dir C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files -ipstatic_source_dir C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/ipstatic -lib_map_path [list {modelsim=C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/modelsim} {questa=C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/questa} {riviera=C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/riviera} {activehdl=C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/activehdl}] -force -quiet
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-close_sim
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-save_wave_config {C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
-save_wave_config {C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-save_wave_config {C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-save_wave_config {C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-save_wave_config {C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-close_sim
-launch_simulation
-open_wave_config C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/tb_top_behav.wcfg
-source tb_top.tcl
-run all
-close_sim
+export_simulation -of_objects [get_files D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram.xci] -directory D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/sim_scripts -ip_user_files_dir D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files -ipstatic_source_dir D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.ip_user_files/ipstatic -lib_map_path [list {modelsim=D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/modelsim} {questa=D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/questa} {riviera=D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/riviera} {activehdl=D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.cache/compile_simlib/activehdl}] -force -quiet
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1

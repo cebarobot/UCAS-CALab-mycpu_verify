@@ -36,10 +36,19 @@ wire         br_taken;
 wire [ 31:0] br_target;
 assign {br_stall,br_taken,br_target} = br_bus;
 
+wire fs_ex;
+wire fs_bd;
+wire [31:0] fs_badvaddr;
+
 wire [31:0] fs_inst;
 reg  [31:0] fs_pc;
-assign fs_to_ds_bus = {fs_inst ,
-                       fs_pc   };
+assign fs_to_ds_bus = {
+                       fs_ex,       //97:97
+                       fs_bd,       //96:96
+                       fs_badvaddr, //95:64  
+                       fs_inst ,    //63:32
+                       fs_pc        //31:0
+                       };
 
 // pre-IF stage
 assign to_fs_ready_go   = !br_stall;
@@ -76,5 +85,20 @@ assign inst_sram_addr  = next_pc;
 assign inst_sram_wdata = 32'b0;
 
 assign fs_inst         = inst_sram_rdata;
+
+//lab9
+reg addr_r;
+always@(posedge clk) begin
+    if(reset) begin
+        addr_r <= 1'b0;
+    end else begin
+        addr_r <= (next_pc[1:0] == 2'b0) ? 1'b0 : 1'b1;
+    end
+end
+wire addr_error;
+assign addr_error = addr_r;
+assign fs_ex = addr_error && fs_valid;
+assign fs_bd = br_stall;
+assign fs_badvaddr = fs_pc;
 
 endmodule

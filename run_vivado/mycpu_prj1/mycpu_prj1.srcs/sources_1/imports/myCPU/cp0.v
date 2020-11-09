@@ -145,7 +145,7 @@ assign cp0_epc = c0_epc;
 //BADVADDR
 reg [31:0] c0_badvaddr;
 always @(posedge clk) begin
-    if(wb_ex && wb_excode == `CP0_BADV_ADDR)
+    if(wb_ex && ((wb_excode == 5'h04) || (wb_excode == 5'h05)))
         c0_badvaddr <= wb_badvaddr;
 end
 

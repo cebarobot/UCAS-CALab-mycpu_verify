@@ -1,10 +1,10 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-// Date        : Tue Oct 20 18:38:30 2020
+// Date        : Tue Nov  3 18:26:38 2020
 // Host        : LAPTOP-N3SV2ADE running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
-//               D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/data_ram/data_ram_stub.v
+//               D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/data_ram/data_ram_stub.v
 // Design      : data_ram
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a200tfbg676-2

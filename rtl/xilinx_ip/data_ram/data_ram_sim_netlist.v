@@ -1,10 +1,10 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-// Date        : Tue Oct 20 18:38:30 2020
+// Date        : Tue Nov  3 18:26:38 2020
 // Host        : LAPTOP-N3SV2ADE running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               D:/vivado_prj/CPU_CDE/my_cpu_verify/rtl/xilinx_ip/data_ram/data_ram_sim_netlist.v
+//               D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/data_ram/data_ram_sim_netlist.v
 // Design      : data_ram
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.

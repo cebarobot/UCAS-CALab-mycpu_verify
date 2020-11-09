@@ -78,6 +78,9 @@ wire [31:0] es_rs_value   ;
 wire [31:0] es_rt_value   ;
 wire [31:0] es_pc         ;
 
+wire [4:0] es_excode;
+wire [31:0] es_badvaddr;
+
 wire    es_ex;
 wire    es_bd;
 wire    es_inst_eret;
@@ -85,12 +88,20 @@ wire    es_inst_syscall;
 wire    es_inst_mfc0;
 wire    es_inst_mtc0;
 wire    no_store;  
-assign no_store = ms_ex | ws_ex;
+assign no_store = ms_ex | ws_ex | es_ex;
+
+wire [4:0] ds_to_es_excode;
+wire [31:0] ds_to_es_badvaddr;
+
 
 assign {
+    fs_to_ds_ex  ,    //209:209
+    overflow_inst,    //208:208
+    ds_to_es_excode,  //207:203
+    ds_to_es_badvaddr, //202:171
     es_cp0_addr    ,  //170:163
-    es_ex          ,  //162:162
-    es_bd          ,  //161:161
+    ds_to_es_ex          ,  //162:162
+    ds_to_es_bd          ,  //161:161
     es_inst_eret   ,  //160:160
     es_inst_syscall,  //159:159
     es_inst_mfc0   ,  //158:158
@@ -149,6 +160,8 @@ assign es_exe_result =
     es_alu_result;
 
 assign es_to_ms_bus = {
+    es_excode       ,  //128:124
+    es_badvaddr     ,  //123:92
     es_cp0_addr     ,  //91:84
     es_ex           ,  //83:83
     es_bd           ,  //82:82
@@ -190,11 +203,14 @@ assign es_alu_src2 = es_src2_is_imm  ? {{16{es_imm[15]}}, es_imm[15:0]} :
                      es_src2_is_8    ? 32'd8 :
                                       es_rt_value;
 
+wire overflow;
+
 alu u_alu(
     .alu_op     (es_alu_op    ),
     .alu_src1   (es_alu_src1  ),
     .alu_src2   (es_alu_src2  ),
-    .alu_result (es_alu_result)
+    .alu_result (es_alu_result),
+    .overflow   (overflow)
     );
 
 // Mult & Multu
@@ -458,5 +474,29 @@ always @(posedge clk) begin
 end
 
 assign es_inst_mfc0_o = es_valid && es_inst_mfc0;
+
+wire overflow_ex;
+wire mem_ex;
+
+wire load_ex;
+wire store_ex;
+
+assign overflow_ex = overflow && overflow_inst;
+
+assign load_ex = (es_inst_lw && (st_addr != 2'b00)) || ((es_inst_lh || es_inst_lhu) && (st_addr[0] != 1'b0));
+assign store_ex = (es_inst_sw && (st_addr != 2'b00)) || (es_inst_sh && (st_addr[0] != 1'b0));
+assign mem_ex = load_ex || store_ex;
+
+
+assign es_ex = (overflow_ex | mem_ex | ds_to_es_ex) & es_valid;
+assign es_bd = ds_to_es_bd;
+assign es_badvaddr = (fs_to_ds_ex) ? ds_to_es_badvaddr : data_sram_addr;
+assign es_excode = (ds_to_es_ex)? ds_to_es_excode :
+                    (overflow_ex)? `EX_OV :
+                    (load_ex)? `EX_ADEL :
+                    (store_ex)? `EX_ADES :
+                    ds_to_es_excode;
+
+
 
 endmodule

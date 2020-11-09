@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date         : Tue Oct 20 18:37:34 2020
+| Date         : Tue Nov  3 18:26:01 2020
 | Host         : LAPTOP-N3SV2ADE running 64-bit major release  (build 9200)
 | Command      : report_utilization -file clk_pll_utilization_synth.rpt -pb clk_pll_utilization_synth.pb
 | Design       : clk_pll

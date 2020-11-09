@@ -22,7 +22,9 @@ module wb_stage(
     //exception
     output                          eret_flush_o  ,
     output                          ws_ex_o       ,
-    output [31:0]                   cp0_epc
+    output [31:0]                   cp0_epc       ,
+    output [31:0]                   cp0_status    ,
+    output [31:0]                   cp0_cause
 );
 
 reg         ws_valid;
@@ -39,8 +41,12 @@ wire        ws_inst_eret;
 wire        ws_inst_syscall;  
 wire        ws_inst_mtc0;
 wire [7:0]  cp0_addr;
+wire [4:0]      ws_excode;
+wire [31:0]     ws_badvaddr;
 
 assign {
+    ws_excode       ,  //123:119
+    ws_badvaddr     ,  //118:87
     cp0_addr     ,  //86:79
     ws_ex           ,  //78:78
     ws_bd           ,  //77:77
@@ -83,8 +89,7 @@ end
 
 //lab8
 
-wire [4:0]      ws_excode;
-wire [31:0]     ws_badvaddr;
+
 wire [5:0]      ext_int_in;
 wire [31:0]     cp0_rdata;
 wire            cp0_we;
@@ -104,11 +109,12 @@ assign ws_ex_o = ws_valid && ws_ex;
 assign eret_flush_o = ws_valid && eret_flush;
 // assign cp0_epc = ws_valid && ws_cp0_epc;
 assign cp0_epc = {32{ws_valid}} & ws_cp0_epc;
+assign cp0_cause = {32{ws_valid}} & ws_cp0_cause;
+assign cp0_status = {32{ws_valid}} & ws_cp0_status;
+
 
 //init
 assign ext_int_in = 6'b0;
-assign ws_ex = (ws_inst_syscall)? 1 : 0;
-assign ws_excode = (ws_inst_syscall)? 5'h08 : 0;
 assign eret_flush = ws_inst_eret && ws_valid;
 
 // TODO
