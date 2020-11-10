@@ -49,6 +49,8 @@ wire        ms_ex;
 wire        ms_inst_mfc0;
 wire        es_inst_mfc0;
 
+wire [31:0] cp0_status;
+wire [31:0] cp0_cause;
 
 
 // IF stage
@@ -99,7 +101,9 @@ id_stage id_stage(
     .es_inst_mfc0   (es_inst_mfc0),
     .ms_inst_mfc0   (ms_inst_mfc0),
     .ws_inst_mfc0   (ws_inst_mfc0),
-    .ws_rf_dest     (ws_rf_dest)
+    .ws_rf_dest     (ws_rf_dest),
+    .cp0_cause      (cp0_cause),
+    .cp0_status     (cp0_status)
 );
 // EXE stage
 exe_stage exe_stage(
@@ -171,7 +175,9 @@ wb_stage wb_stage(
     .eret_flush_o     (eret_flush),
     .cp0_epc        (cp0_epc),
     .ws_inst_mfc0_o   (ws_inst_mfc0),
-    .ws_rf_dest     (ws_rf_dest)
+    .ws_rf_dest     (ws_rf_dest),
+    .cp0_cause      (cp0_cause),
+    .cp0_status     (cp0_status)
 );
 
 endmodule
