@@ -1,8 +1,8 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date         : Tue Nov  3 18:36:39 2020
-| Host         : LAPTOP-N3SV2ADE running 64-bit major release  (build 9200)
+| Date         : Tue Nov 10 16:15:38 2020
+| Host         : CEBA-X1C running 64-bit major release  (build 9200)
 | Command      : report_bus_skew -warn_on_violation -file soc_lite_top_bus_skew_routed.rpt -pb soc_lite_top_bus_skew_routed.pb -rpx soc_lite_top_bus_skew_routed.rpx
 | Design       : soc_lite_top
 | Device       : 7a200t-fbg676

@@ -2,11 +2,11 @@
 # Vivado v2019.2 (64-bit)
 # SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
 # IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
-# Start of session at: Tue Nov  3 18:27:08 2020
-# Process ID: 12492
-# Current directory: D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/synth_1
+# Start of session at: Tue Nov 10 16:04:24 2020
+# Process ID: 18464
+# Current directory: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/synth_1
 # Command line: vivado.exe -log soc_lite_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source soc_lite_top.tcl
-# Log file: D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/synth_1/soc_lite_top.vds
-# Journal file: D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/synth_1\vivado.jou
+# Log file: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/synth_1/soc_lite_top.vds
+# Journal file: C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/mycpu_prj1/mycpu_prj1.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source soc_lite_top.tcl -notrace

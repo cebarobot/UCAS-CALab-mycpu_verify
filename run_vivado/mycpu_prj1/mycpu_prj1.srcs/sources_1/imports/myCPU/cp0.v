@@ -11,7 +11,7 @@ module cp0(
     input         rst, 
     input         wb_ex,
     input         wb_bd,
-    input         eret_flush,
+    input         ws_eret,
     input  [4:0]  wb_excode,
     input  [31:0] wb_pc,
     input  [31:0] wb_badvaddr,
@@ -48,7 +48,7 @@ always @(posedge clk) begin
         cp0_status_exl <= 1'b0;
     else if(wb_ex)
         cp0_status_exl <= 1'b1;
-    else if(eret_flush)
+    else if(ws_eret)
         cp0_status_exl <= 1'b0;
     else if(mtc0_we && cp0_addr == `CP0_STATUS_ADDR)
         cp0_status_exl <= cp0_wdata[1];

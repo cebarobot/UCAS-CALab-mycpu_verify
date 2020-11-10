@@ -1,4 +1,4 @@
-set_property SRC_FILE_INFO {cfile:D:/vivado_prj/CPU_CDE/mycpu_verify/run_vivado/soc_lite.xdc rfile:../../../../soc_lite.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/run_vivado/soc_lite.xdc rfile:../../../../soc_lite.xdc id:1} [current_design]
 set_property src_info {type:XDC file:1 line:3 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN AC19 [get_ports clk]
 set_property src_info {type:XDC file:1 line:8 export:INPUT save:INPUT read:READ} [current_design]

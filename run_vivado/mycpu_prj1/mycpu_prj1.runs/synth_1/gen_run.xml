@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1604399224">
+<GenRun Id="synth_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1604995461">
   <File Type="PA-TCL" Name="soc_lite_top.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="soc_lite_top_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="soc_lite_top_reports.tcl"/>
   <File Type="RDS-RDS" Name="soc_lite_top.vds"/>
   <File Type="RDS-UTIL" Name="soc_lite_top_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="soc_lite_top_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="soc_lite_top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="soc_lite_top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="soc_lite_top_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
-    <File Path="$PPRDIR/../../rtl/xilinx_ip/inst_ram/inst_ram.xci">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
     <File Path="$PSRCDIR/sources_1/ip/signed_divider/signed_divider.xci">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -158,6 +154,12 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PPRDIR/../../../soft/func_lab9/obj/inst_ram.coe">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
       <Option Name="TopModule" Val="soc_lite_top"/>
@@ -188,4 +190,5 @@
   </Strategy>
   <BlockFileSet Type="BlockSrcs" Name="clk_pll"/>
   <BlockFileSet Type="BlockSrcs" Name="data_ram"/>
+  <BlockFileSet Type="BlockSrcs" Name="inst_ram"/>
 </GenRun>
