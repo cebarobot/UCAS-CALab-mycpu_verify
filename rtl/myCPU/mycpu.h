@@ -17,6 +17,6 @@
     `define EX_BP               5'h09
     `define EX_RI               5'h0a
     `define EX_OV               5'h0c
-    `define EX_NO               5'hff
+    `define EX_NO               5'h1f
 
 `endif

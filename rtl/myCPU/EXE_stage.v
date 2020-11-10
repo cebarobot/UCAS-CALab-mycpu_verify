@@ -27,7 +27,8 @@ module exe_stage(
     //exception
     input                           ws_ex        ,
     input                           ms_ex        ,
-    input                           eret_flush   
+    input                           ms_eret      ,
+    input                           ws_eret
 );
 
 reg         es_valid      ;
@@ -88,7 +89,8 @@ wire    es_inst_syscall;
 wire    es_inst_mfc0;
 wire    es_inst_mtc0;
 wire    no_store;  
-assign no_store = ms_ex | ws_ex | es_ex;
+assign no_store = ms_ex | ws_ex | es_ex | ms_eret | ws_eret;
+// assign no_store = ms_ex | ws_ex | es_ex;
 
 wire [4:0] ds_to_es_excode;
 wire [31:0] ds_to_es_badvaddr;
@@ -451,15 +453,15 @@ assign es_fwd_valid = {4{ es_valid && es_gr_we && !es_res_from_mem }};
 assign es_rf_dest   = es_dest;
 assign es_rf_data   = es_exe_result;
 
-assign es_blk_valid = es_valid && es_res_from_mem && !eret_flush && !ws_ex;
+assign es_blk_valid = es_valid && es_res_from_mem && !ws_eret && !ws_ex;
 
 // Pipeline
 assign es_ready_go    = 
-    es_inst_div  && !eret_flush && !ws_ex    ? signed_dout_tvalid || signed_divider_done :
-    es_inst_divu && !eret_flush && !ws_ex   ? unsigned_dout_tvalid || unsigned_divider_done :
+    es_inst_div  && !ws_eret && !ws_ex    ? signed_dout_tvalid || signed_divider_done :
+    es_inst_divu && !ws_eret && !ws_ex   ? unsigned_dout_tvalid || unsigned_divider_done :
     1'b1;
 assign es_allowin     = !es_valid || es_ready_go && ms_allowin;
-assign es_to_ms_valid =  es_valid && es_ready_go && !eret_flush && !ws_ex;
+assign es_to_ms_valid =  es_valid && es_ready_go && !ws_eret && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         es_valid <= 1'b0;
@@ -490,7 +492,7 @@ assign mem_ex = load_ex || store_ex;
 
 assign es_ex = (overflow_ex | mem_ex | ds_to_es_ex) & es_valid;
 assign es_bd = ds_to_es_bd;
-assign es_badvaddr = (fs_to_ds_ex) ? ds_to_es_badvaddr : data_sram_addr;
+assign es_badvaddr = (fs_to_ds_ex) ? ds_to_es_badvaddr : es_alu_result;
 assign es_excode = (ds_to_es_ex)? ds_to_es_excode :
                     (overflow_ex)? `EX_OV :
                     (load_ex)? `EX_ADEL :

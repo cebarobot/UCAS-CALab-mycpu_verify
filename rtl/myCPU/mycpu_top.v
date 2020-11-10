@@ -42,12 +42,15 @@ wire [`MS_FWD_BLK_BUS_WD -1:0] ms_fwd_blk_bus;
 
 wire [31:0] cp0_epc;
 wire        ws_ex;
-wire        eret_flush;
+wire        ws_eret;
 wire [4:0]  ws_rf_dest;
 wire        ws_inst_mfc0;
+
 wire        ms_ex;
+wire        ms_eret;
 wire        ms_inst_mfc0;
 wire        es_inst_mfc0;
+wire        ds_is_branch;
 
 wire [31:0] cp0_status;
 wire [31:0] cp0_cause;
@@ -64,6 +67,8 @@ if_stage if_stage(
     //outputs
     .fs_to_ds_valid (fs_to_ds_valid ),
     .fs_to_ds_bus   (fs_to_ds_bus   ),
+    // delay slot
+    .ds_is_branch   (ds_is_branch   ),
     // inst sram interface
     .inst_sram_en   (inst_sram_en   ),
     .inst_sram_wen  (inst_sram_wen  ),
@@ -72,7 +77,7 @@ if_stage if_stage(
     .inst_sram_rdata(inst_sram_rdata),
     //exception
     .ws_ex          (ws_ex),
-    .eret_flush     (eret_flush),
+    .ws_eret     (ws_eret),
     .cp0_epc        (cp0_epc)
 );
 // ID stage
@@ -95,9 +100,11 @@ id_stage id_stage(
     // forward & block
     .es_fwd_blk_bus (es_fwd_blk_bus ),
     .ms_fwd_blk_bus (ms_fwd_blk_bus ),
+    // delay slot
+    .ds_is_branch   (ds_is_branch   ),
     //exception & block
     .ws_ex          (ws_ex),
-    .eret_flush     (eret_flush),
+    .ws_eret     (ws_eret),
     .es_inst_mfc0   (es_inst_mfc0),
     .ms_inst_mfc0   (ms_inst_mfc0),
     .ws_inst_mfc0   (ws_inst_mfc0),
@@ -127,9 +134,10 @@ exe_stage exe_stage(
     .es_fwd_blk_bus (es_fwd_blk_bus ),
     //exception & block
     .ws_ex          (ws_ex),
+    .ws_eret        (ws_eret),
     .ms_ex          (ms_ex),
-    .eret_flush     (eret_flush),
-    .es_inst_mfc0_o   (es_inst_mfc0)
+    .ms_eret        (ms_eret),
+    .es_inst_mfc0_o (es_inst_mfc0)
 );
 // MEM stage
 mem_stage mem_stage(
@@ -150,9 +158,10 @@ mem_stage mem_stage(
     .ms_fwd_blk_bus (ms_fwd_blk_bus),
     //exception & block
     .ws_ex          (ws_ex),
-    .ms_ex_o          (ms_ex),
-    .eret_flush     (eret_flush),
-    .ms_inst_mfc0_o   (ms_inst_mfc0)
+    .ws_eret        (ws_eret),
+    .ms_ex_o        (ms_ex),
+    .ms_eret        (ms_eret),
+    .ms_inst_mfc0_o (ms_inst_mfc0)
 );
 // WB stage
 wb_stage wb_stage(
@@ -171,10 +180,10 @@ wb_stage wb_stage(
     .debug_wb_rf_wnum (debug_wb_rf_wnum ),
     .debug_wb_rf_wdata(debug_wb_rf_wdata),
     //exception & block
-    .ws_ex_o          (ws_ex),
-    .eret_flush_o     (eret_flush),
+    .ws_ex_o        (ws_ex),
+    .ws_eret        (ws_eret),
     .cp0_epc        (cp0_epc),
-    .ws_inst_mfc0_o   (ws_inst_mfc0),
+    .ws_inst_mfc0_o (ws_inst_mfc0),
     .ws_rf_dest     (ws_rf_dest),
     .cp0_cause      (cp0_cause),
     .cp0_status     (cp0_status)

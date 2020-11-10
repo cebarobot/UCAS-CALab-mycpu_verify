@@ -16,6 +16,9 @@ module id_stage(
     output [`BR_BUS_WD       -1:0] br_bus        ,
     //to rf: for write back
     input  [`WS_TO_RF_BUS_WD -1:0] ws_to_rf_bus  ,
+
+    // delay slot
+    output                          ds_is_branch,
     
     // forword & block from es
     input  [`ES_FWD_BLK_BUS_WD -1:0] es_fwd_blk_bus,
@@ -29,7 +32,7 @@ module id_stage(
     input [4:0]                     ws_rf_dest    ,
 
     //exception
-    input                           eret_flush    ,
+    input                           ws_eret    ,
     input                           ws_ex         ,
 
     input  [31:0]                   cp0_status    ,
@@ -46,10 +49,14 @@ assign fs_pc = fs_to_ds_bus[31:0];
 wire [31:0] fs_to_ds_badvaddr;
 wire [31:0] ds_inst;
 wire [31:0] ds_pc  ;
+wire        ds_ex;
+wire        ds_bd;
+wire [31:0] ds_badvaddr;
+wire [ 4:0] ds_excode;
 assign {
     fs_to_ds_ex,
-    fs_to_ds_bd,
-    fs_to_ds_badvaddr,
+    ds_bd,
+    ds_badvaddr,
     ds_inst,
     ds_pc
 } = fs_to_ds_bus_r;
@@ -85,6 +92,7 @@ assign {
     ms_rf_dest,     // 36:32
     ms_rf_data      // 31:0
 } = ms_fwd_blk_bus;
+
 wire        br_stall;
 wire        br_taken;
 wire [31:0] br_target;
@@ -200,10 +208,6 @@ wire [31:0] rf_rdata2;
 
 wire        rs_eq_rt;
 
-wire ds_ex;
-wire ds_bd;
-wire [31:0] ds_badvaddr;
-wire [4:0] ds_excode;
 wire overflow_inst;
 
 wire [7:0] cp0_addr;
@@ -274,7 +278,7 @@ assign ds_ready_go    = !(
 );
 
 assign ds_allowin     = !ds_valid || ds_ready_go && es_allowin;
-assign ds_to_es_valid = ds_valid && ds_ready_go && !eret_flush && !ws_ex;
+assign ds_to_es_valid = ds_valid && ds_ready_go && !ws_eret && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         ds_valid <= 1'b0;
@@ -295,6 +299,7 @@ assign sa   = ds_inst[10: 6];
 assign func = ds_inst[ 5: 0];
 assign imm  = ds_inst[15: 0];
 assign jidx = ds_inst[25: 0];
+assign cp0_addr = {ds_inst[15:11], ds_inst[2:0]};
 
 decoder_6_64 u_dec0(.in(op  ), .out(op_d  ));
 decoder_6_64 u_dec1(.in(func), .out(func_d));
@@ -384,7 +389,6 @@ assign inst_mtc0    = op_d[6'h10] & rs_d[5'h04] & sa_d[5'h00] & (ds_inst[5:3] ==
 //new inst in lab9
 assign inst_break   = op_d[6'h00] & func_d[6'h0d];
 
-assign cp0_addr = {ds_inst[15:11], ds_inst[2:0]};
 
 
 
@@ -489,7 +493,8 @@ assign rt_value[31:24] =
     rf_rdata2  [31:24];
 
 // TODO:
-assign br_stall = (inst_beq || inst_bne || inst_jal || inst_jr || inst_bgez || inst_bgtz || inst_blez || inst_bltz || inst_bgezal || inst_bltzal || inst_j || inst_jalr) && ds_valid;
+assign br_stall = 1'b0;
+assign ds_is_branch = (inst_beq || inst_bne || inst_jal || inst_jr || inst_bgez || inst_bgtz || inst_blez || inst_bltz || inst_bgezal || inst_bltzal || inst_j || inst_jalr) && ds_valid;
 
 wire judge_bgez;
 wire judge_bgtz;
@@ -536,8 +541,6 @@ assign interrupt = ((cp0_cause[15:8] & cp0_status[15:8]) != 8'b0) && (cp0_status
 
 
 assign ds_ex = (fs_to_ds_ex | inst_syscall | inst_break | other_inst | interrupt) & ds_valid;
-
-assign ds_badvaddr = fs_to_ds_badvaddr;
 
 assign ds_excode = (interrupt) ? `EX_INT :
                    (fs_to_ds_ex) ? `EX_ADEL :

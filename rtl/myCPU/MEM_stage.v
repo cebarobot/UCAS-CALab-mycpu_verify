@@ -24,8 +24,9 @@ module mem_stage(
 
     //exception
     input                           ws_ex        ,
-    input                           eret_flush   ,
-    output                          ms_ex_o    
+    input                           ws_eret      ,
+    output                          ms_ex_o      ,
+    output                          ms_eret
 );
 
 reg         ms_valid;
@@ -62,9 +63,11 @@ assign ms_badvaddr = es_to_ms_badvaddr;
 
 wire    ms_bd;
 wire    ms_inst_eret;
-wire    ms_inst_syscall;  
+wire    ms_inst_syscall;
 //wire    ms_inst_mfc0;
 wire    ms_inst_mtc0;
+
+assign ms_eret = ms_valid & ms_inst_eret;
 
 assign {
     es_to_ms_excode ,  //128:124
@@ -122,7 +125,7 @@ assign ms_fwd_blk_bus = {
 
 assign ms_ready_go    = 1'b1;
 assign ms_allowin     = !ms_valid || ms_ready_go && ws_allowin;
-assign ms_to_ws_valid = ms_valid && ms_ready_go && !eret_flush && !ws_ex;
+assign ms_to_ws_valid = ms_valid && ms_ready_go && !ws_eret && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         ms_valid <= 1'b0;

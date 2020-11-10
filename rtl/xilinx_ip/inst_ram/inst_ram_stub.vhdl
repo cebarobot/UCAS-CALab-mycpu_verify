@@ -1,10 +1,10 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
--- Date        : Mon Nov  9 22:29:33 2020
--- Host        : LAPTOP-N3SV2ADE running 64-bit major release  (build 9200)
+-- Date        : Tue Nov 10 14:03:52 2020
+-- Host        : CEBA-X1C running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               D:/vivado_prj/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram_stub.vhdl
+--               C:/Users/ceba_/Documents/working/verilog/CPU_CDE/mycpu_verify/rtl/xilinx_ip/inst_ram/inst_ram_stub.vhdl
 -- Design      : inst_ram
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a200tfbg676-2

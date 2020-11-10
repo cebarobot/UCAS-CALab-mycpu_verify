@@ -10,6 +10,10 @@ module if_stage(
     //to ds
     output                         fs_to_ds_valid ,
     output [`FS_TO_DS_BUS_WD -1:0] fs_to_ds_bus   ,
+
+    // delay slot
+    input         ds_is_branch,
+
     // inst sram interface
     output        inst_sram_en   ,
     output [ 3:0] inst_sram_wen  ,
@@ -19,7 +23,7 @@ module if_stage(
 
     //exception
     input [31:0]  cp0_epc,
-    input         eret_flush,
+    input         ws_eret,
     input         ws_ex
 );
 
@@ -55,14 +59,14 @@ assign to_fs_ready_go   = !br_stall;
 assign to_fs_valid      = ~reset && to_fs_ready_go;
 assign seq_pc           = fs_pc + 3'h4;
 assign next_pc          = ws_ex ? 32'hbfc00380 :
-                          eret_flush ? cp0_epc :
+                          ws_eret ? cp0_epc :
                           br_taken ? br_target : 
                                      seq_pc; 
 
 // IF stage
 assign fs_ready_go    = 1'b1;
 assign fs_allowin     = !fs_valid || fs_ready_go && ds_allowin;
-assign fs_to_ds_valid =  fs_valid && fs_ready_go && !eret_flush && !ws_ex;
+assign fs_to_ds_valid =  fs_valid && fs_ready_go && !ws_eret && !ws_ex;
 always @(posedge clk) begin
     if (reset) begin
         fs_valid <= 1'b0;
@@ -81,24 +85,16 @@ end
 
 assign inst_sram_en    = to_fs_valid && fs_allowin;
 assign inst_sram_wen   = 4'h0;
-assign inst_sram_addr  = next_pc;
+assign inst_sram_addr  = {next_pc[31:2], 2'b0};
 assign inst_sram_wdata = 32'b0;
 
 assign fs_inst         = inst_sram_rdata;
 
 //lab9
-reg addr_r;
-always@(posedge clk) begin
-    if(reset) begin
-        addr_r <= 1'b0;
-    end else begin
-        addr_r <= (next_pc[1:0] == 2'b0) ? 1'b0 : 1'b1;
-    end
-end
 wire addr_error;
-assign addr_error = addr_r;
+assign addr_error = (fs_pc[1:0] != 2'b0);
 assign fs_ex = addr_error && fs_valid;
-assign fs_bd = br_stall;
+assign fs_bd = ds_is_branch;    
 assign fs_badvaddr = fs_pc;
 
 endmodule
